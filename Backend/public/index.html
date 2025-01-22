@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real-Time Code Editor</title>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
+    <style>
+      #editor {
+        width: 100%;
+        height: 100vh;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="editor"></div>
+    <script>
+      // Load the Monaco Editor
+      require.config({
+        paths: { vs: "https://cdn.jsdelivr.net/npm/monaco-editor/min/vs" },
+      });
+      require(["vs/editor/editor.main"], function () {
+        const editor = monaco.editor.create(document.getElementById("editor"), {
+          value: "// Start coding here...",
+          language: "javascript",
+          theme: "vs-dark",
+        });
+
+        // WebSocket connection
+        const ws = new WebSocket("ws://localhost:3000");
+
+        // Avoid infinite loops with programmatic changes
+        let suppressUpdate = false;
+
+        ws.onopen = () => console.log("WebSocket connected!");
+        ws.onerror = (error) => console.error("WebSocket error:", error);
+        ws.onclose = () => console.warn("WebSocket closed.");
+
+        // Listen for WebSocket messages
+        ws.onmessage = async (event) => {
+          try {
+            // Convert Blob to text before parsing
+            const messageText = await event.data.text(); // Convert Blob to text
+            const message = JSON.parse(messageText); // Parse JSON from text
+
+            if (message.type === "update" && !suppressUpdate) {
+              suppressUpdate = true; // Suppress change event temporarily
+              editor.setValue(message.content);
+              suppressUpdate = false;
+            }
+          } catch (error) {
+            console.error("Failed to parse WebSocket message:", error);
+          }
+        };
+
+        // Send editor content on change
+        editor.onDidChangeModelContent(() => {
+          if (!suppressUpdate) {
+            const content = editor.getValue();
+            ws.send(JSON.stringify({ type: "update", content }));
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
