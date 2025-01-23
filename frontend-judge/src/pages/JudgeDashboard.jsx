@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link for navigation
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableCell, TableBody } from "@/components/ui/table";
@@ -22,44 +23,12 @@ const JudgeDashboard = () => {
 
   return (
     <div className="p-6 bg-gradient-to-b from-gray-100 to-gray-50 min-h-screen">
-      {/* Header */}
       <header className="mb-10 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg shadow-lg">
         <h1 className="text-4xl font-extrabold mb-2">Judges Dashboard</h1>
         <p className="text-lg font-light">
           Stay organized. Evaluate teams and manage your assigned tasks efficiently.
         </p>
       </header>
-
-      {/* Overview Section */}
-      <section className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-white shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold text-gray-800">Teams Assigned</CardTitle>
-            <CardDescription className="text-gray-500">Total teams to evaluate</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <h2 className="text-2xl font-bold text-blue-600">10</h2>
-          </CardContent>
-        </Card>
-        <Card className="bg-white shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold text-gray-800">Completed Evaluations</CardTitle>
-            <CardDescription className="text-gray-500">Teams you've already evaluated</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <h2 className="text-2xl font-bold text-green-600">5</h2>
-          </CardContent>
-        </Card>
-        <Card className="bg-white shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold text-gray-800">Pending Evaluations</CardTitle>
-            <CardDescription className="text-gray-500">Teams still waiting for evaluation</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <h2 className="text-2xl font-bold text-red-600">5</h2>
-          </CardContent>
-        </Card>
-      </section>
 
       {/* Teams List Section */}
       <section>
@@ -91,7 +60,9 @@ const JudgeDashboard = () => {
                     <Button variant="default" className="mr-2">
                       Evaluate
                     </Button>
-                    <Button variant="outline">Details</Button>
+                    <Link to={`/team/${team.id}`}>
+                      <Button variant="outline">Details</Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
