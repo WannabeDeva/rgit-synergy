@@ -290,7 +290,7 @@ const Homepage = () => {
                       <Button 
                         variant="outline" 
                         className="gap-2"
-                        onClick={() => navigate(`/hackathon/${hackathon.id}`)}
+                        onClick={() => navigate(`/overview`)}
                       >
                         Manage
                         <ArrowRight className="h-4 w-4" />

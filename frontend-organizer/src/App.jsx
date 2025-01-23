@@ -16,7 +16,7 @@ function App() {
      <Router>
       <Routes>
         {/* Define routes for each page */}
-        <Route path="/organizerhome" element={<Homepage />} />
+        <Route path="/" element={<Homepage />} />
         <Route path="/overview" element={<Overview />} />
         <Route path="/teams" element={<TeamsList />} />
         <Route path="/teams/:teamId" element={<TeamDetails />} />
