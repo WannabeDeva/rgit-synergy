@@ -10,9 +10,11 @@ import Landingpage from './pages/landingpage'
 import Mentorpage from './pages/mentorpage'
 import Workspacepage from './pages/workspace'
 import Navbar from './components/Navbar'
-import UserProfile from './pages/user_profile';
+import UserProfile from './pages/UserAuth';
 import ViewDetails from './pages/view_details';
 import SmartPairingPage from './pages/SmartPairingPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import ProfilePage from './pages/Profile';
 function App() {
   
 
@@ -23,17 +25,27 @@ function App() {
     <Router>
       <div>
         {/* Optional: Add a Button or Navbar here */}
-        <Navbar />
+       
 
         <Routes>
           {/* Define routes for the pages */}
           <Route path="/" element={<Landingpage />} />
-          <Route path="/homepage" element={<Homepage />} />
+
+          <Route
+          path="/homepage"
+          element={
+            <ProtectedRoute>
+              <Homepage />
+            </ProtectedRoute>
+          }
+        />
+
+<Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/create-teams" element={<Create_Teams />} />
           <Route path="/judging" element={<Judgingpage />} />
           <Route path="/mentor" element={<Mentorpage />} />
           <Route path="/workspace" element={<Workspacepage />} />
-          <Route path="/profile" element={<UserProfile />} />
+          {/* <Route path="/profile" element={<ProfilePage />} /> */}
           <Route path="/details" element={<ViewDetails />} />
           <Route path="/pairing" element={<SmartPairingPage />} />
 
