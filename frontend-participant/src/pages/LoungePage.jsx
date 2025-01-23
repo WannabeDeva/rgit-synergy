@@ -41,7 +41,7 @@ function LoungePage() {
         "Provide the GitHub link for your project."
       ],
       buttonText: "Go to Submission",
-      link: "/submission"
+      link: "/submit"
     },
     {
       id: 4,

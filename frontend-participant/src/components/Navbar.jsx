@@ -18,7 +18,7 @@ const ParticipantNavbar = () => {
 
         {/* My Hackathons Section */}
         <Button asChild variant="ghost" className="text-lg font-medium hover:text-blue-600">
-          <Link to="/my-hackathons">My Hackathons</Link>
+          <Link to="/myhack">My Hackathons</Link>
         </Button>
 
         {/* Profile Section */}

@@ -15,6 +15,8 @@ import ViewDetails from './pages/view_details';
 import SmartPairingPage from './pages/SmartPairingPage';
 import MyHackathonsPage from './pages/MyHackathonsPage';
 import LoungePage from './pages/LoungePage';
+import SubmissionsPage from './pages/SubmissionsPage';
+import Leaderboard from './pages/Leaderbaord';
 function App() {
   
 
@@ -40,6 +42,8 @@ function App() {
           <Route path="/pairing" element={<SmartPairingPage />} />
           <Route path="/myhack" element={<MyHackathonsPage />} />
           <Route path="/lounge" element={<LoungePage />} />
+          <Route path="/submit" element={<SubmissionsPage />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
 
           
         </Routes>
