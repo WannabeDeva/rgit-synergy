@@ -12,6 +12,7 @@ import Workspacepage from './pages/workspace'
 import Navbar from './components/Navbar'
 import UserProfile from './pages/user_profile';
 import ViewDetails from './pages/view_details';
+import SmartPairingPage from './pages/SmartPairingPage';
 function App() {
   
 
@@ -34,6 +35,8 @@ function App() {
           <Route path="/workspace" element={<Workspacepage />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/details" element={<ViewDetails />} />
+          <Route path="/pairing" element={<SmartPairingPage />} />
+
           
         </Routes>
       </div>

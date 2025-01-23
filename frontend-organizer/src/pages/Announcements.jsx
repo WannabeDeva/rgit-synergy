@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useNavigate } from "react-router-dom";
 
 const Announcements = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,12 +43,17 @@ const Announcements = () => {
       alert("Please fill out all fields.");
     }
   };
+  const navigate = useNavigate();
 
   return (
     <div className="flex">
       <Sidebar />
       <main className="flex-1 bg-gray-100 min-h-screen">
+        
         <div className="p-6 space-y-6 max-w-7xl mx-auto">
+
+        <Button variant="destructive" onClick={() => navigate(`/`)}>Back to home</Button>
+
           {/* Header Section */}
           <div className="flex justify-between items-center">
             <div>

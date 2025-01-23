@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Table,
   TableBody,
@@ -24,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Users, Search, Filter, Mail, Github } from 'lucide-react';
+import Sidebar from '@/components/Sidebar';
 
 const TeamDetails = () => {
     const teamData = {
@@ -66,7 +68,14 @@ const TeamDetails = () => {
     };
   
     return (
+
+      <div className="flex">
+      <Sidebar />
+      <main className="flex-1 bg-gray-100 min-h-screen">
       <div className="p-6 space-y-6 max-w-7xl mx-auto">
+
+              <Button variant="destructive" onClick={() => navigate(`/`)}>Back to home</Button>
+        
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
@@ -139,6 +148,10 @@ const TeamDetails = () => {
           </Card>
         </div>
       </div>
+      </main>
+    </div>
+
+      
     );
   };
 

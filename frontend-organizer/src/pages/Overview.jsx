@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
@@ -51,15 +53,19 @@ const Overview = () => {
       icon: <MessageSquare className="h-6 w-6 text-orange-500" />
     }
   ];
+  const navigate = useNavigate();
 
   return (
 
     <div className="flex">
     <Sidebar />
+
+    
+
     <main className="flex-1 bg-gray-100 min-h-screen">
       <div className="p-6 space-y-6 max-w-7xl mx-auto">
 
-      
+      <Button variant="destructive" onClick={() => navigate(`/`)}>Back to home</Button>
 
       {/* Header Section */}
       <div className="flex justify-between items-center">

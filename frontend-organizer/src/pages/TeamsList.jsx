@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -28,6 +29,7 @@ import Sidebar from '@/components/Sidebar';
 
 // Teams List Page Component
 const TeamsList = () => {
+  const navigate = useNavigate();
   const teams = [
     {
       id: 1,
@@ -57,6 +59,10 @@ const TeamsList = () => {
     <main className="flex-1 bg-gray-100 min-h-screen">
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
+
+      <Button variant="destructive" onClick={() => navigate(`/`)}>Back to home</Button>
+    
+
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Teams</h1>
@@ -119,7 +125,7 @@ const TeamsList = () => {
                   </TableCell>
                   <TableCell>{team.lastActive}</TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="sm">View Details</Button>
+                    <Button variant="ghost" size="sm" onClick={() => navigate('/teams/1') }>View Details</Button>
                   </TableCell>
                 </TableRow>
               ))}
