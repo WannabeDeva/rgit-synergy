@@ -6,6 +6,7 @@ import TeamDetails from './pages/TeamDetails';
 import Announcements from './pages/Announcements';
 import Homepage from './pages/Homepage';
 import LandingPage from './pages/LandingPage';
+import MentorDashboard from './pages/MentorDashboard';
 
 function App() {
   
@@ -21,6 +22,8 @@ function App() {
         <Route path="/teams/:teamId" element={<TeamDetails />} />
         <Route path="/announcements" element={<Announcements />} />
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="/mentordash" element={<MentorDashboard />} />
+        
 
       </Routes>
     </Router>
