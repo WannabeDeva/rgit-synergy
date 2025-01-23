@@ -1,9 +1,11 @@
-import TeamDetails from './pages/TeamDetails';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from './components/Navbar';
 
 // import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import JudgeDashboard from './pages/JudgeDashboard';
+import TeamDetails from './pages/TeamDetails';
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
       <Routes>
         {/* Define a single route for the JudgeDashboard */}
         <Route path="/" element={<JudgeDashboard />} />
+        <Route path="/team/:teamId" element={<TeamDetails />} /> {/* Route to TeamDetails with dynamic teamId */}
         
       </Routes>
     </Router>
