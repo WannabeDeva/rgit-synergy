@@ -10,6 +10,8 @@ import Landingpage from './pages/landingpage'
 import Mentorpage from './pages/mentorpage'
 import Workspacepage from './pages/workspace'
 import Navbar from './components/Navbar'
+import UserProfile from './pages/user_profile';
+import ViewDetails from './pages/view_details';
 function App() {
   
 
@@ -30,6 +32,9 @@ function App() {
           <Route path="/judging" element={<Judgingpage />} />
           <Route path="/mentor" element={<Mentorpage />} />
           <Route path="/workspace" element={<Workspacepage />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/details" element={<ViewDetails />} />
+          
         </Routes>
       </div>
     </Router>
