@@ -13,6 +13,8 @@ import Navbar from './components/Navbar'
 import UserProfile from './pages/user_profile';
 import ViewDetails from './pages/view_details';
 import SmartPairingPage from './pages/SmartPairingPage';
+import MyHackathonsPage from './pages/MyHackathonsPage';
+import LoungePage from './pages/LoungePage';
 function App() {
   
 
@@ -36,6 +38,8 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/details" element={<ViewDetails />} />
           <Route path="/pairing" element={<SmartPairingPage />} />
+          <Route path="/myhack" element={<MyHackathonsPage />} />
+          <Route path="/lounge" element={<LoungePage />} />
 
           
         </Routes>

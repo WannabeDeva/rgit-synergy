@@ -8,7 +8,7 @@ function Workspacepage() {
     <div className="h-screen flex flex-col bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
       <header className="bg-indigo-600 text-white py-6 shadow-lg">
-        <h1 className="text-4xl font-bold text-center">💻 Workspacepage</h1>
+        <h1 className="text-4xl font-bold text-center">💻 Workspace</h1>
         <p className="text-center text-indigo-200 mt-2">Collaborate, Code, and Create Together</p>
       </header>
 
