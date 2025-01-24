@@ -57,9 +57,11 @@ const JudgeDashboard = () => {
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Button variant="default" className="mr-2">
-                      Evaluate
-                    </Button>
+                    <Link to="/evaluate">
+                      <Button variant="default" className="mr-2">
+                        Evaluate
+                      </Button>
+                    </Link>
                     <Link to={`/team/${team.id}`}>
                       <Button variant="outline">Details</Button>
                     </Link>
