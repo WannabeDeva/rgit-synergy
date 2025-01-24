@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import guy1 from "../images/guy1.jpg";
 import guy2 from "../images/guy2.jpg";
@@ -33,6 +34,7 @@ const mentors = [
 ];
 
 function MentorsPage() {
+  const navigate = useNavigate();
   const [notification, setNotification] = useState(null); // For storing notification details
 
   const handleSchedule = (mentor) => {
@@ -100,7 +102,8 @@ function MentorsPage() {
             <Button
               variant="default"
               className="mt-2"
-              onClick={() => alert("Starting session...")}
+              // onClick={() => alert("Starting session...")}
+              onClick={() => navigate("/room")}
             >
               Start Session
             </Button>

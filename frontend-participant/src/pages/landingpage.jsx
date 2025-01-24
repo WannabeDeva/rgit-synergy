@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -78,5 +77,7 @@ const LandingPage = ({ onExploreClick }) => {
   );
 };
 
+
+
 export default LandingPage;
->>>>>>> 4fd09303af64c666fa9d196a76ca684edecabc0a
+

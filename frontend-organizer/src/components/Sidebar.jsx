@@ -31,11 +31,11 @@ const Sidebar = () => {
         label: 'Announcements', 
         path: '/announcements'
       },
-    { 
-      icon: <Trophy size={20} />, 
-      label: 'Leaderboard', 
-      path: '/leaderboard'
-    },
+    // { 
+    //   icon: <Trophy size={20} />, 
+    //   label: 'Leaderboard', 
+    //   path: '/leaderboard'
+    // },
     
   ];
 

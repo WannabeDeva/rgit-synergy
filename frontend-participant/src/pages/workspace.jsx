@@ -2,8 +2,12 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 function Workspacepage() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="h-screen flex flex-col bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
@@ -31,9 +35,12 @@ function Workspacepage() {
 
         {/* Chat Section */}
         <Card className="w-1/3 shadow-xl border border-indigo-300">
-          <CardHeader className="bg-indigo-50 border-b border-indigo-300">
-            <CardTitle className="text-indigo-600 font-semibold text-lg">Chat</CardTitle>
-          </CardHeader>
+        <CardHeader className="bg-indigo-50 border-b border-indigo-300 flex flex-row justify-between items-center">
+          <CardTitle className="text-indigo-600 font-semibold text-lg">Chat</CardTitle>
+          <Button variant="outline" size="sm" className="text-indigo-600 border-indigo-300" onClick={() => navigate("/room")}>
+            Video Call
+          </Button>
+        </CardHeader>
           <CardContent className="h-[75vh] bg-white rounded-lg p-4 space-y-4">
             <div className="bg-indigo-100 p-3 rounded-lg shadow">
               <p className="text-sm font-medium text-indigo-800">Mentor:</p>

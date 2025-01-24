@@ -11,7 +11,7 @@ import EvaluationForm from "./pages/EvaluationForm";
 function App() {
   return (
     <Router>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <Routes>
         {/* Define a single route for the JudgeDashboard */}

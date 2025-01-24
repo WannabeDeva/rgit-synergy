@@ -123,7 +123,7 @@ export default function ViewDetails(){
                     {/* Create/Join Team Button */}
                     <button
                         className="w-full py-4 px-6 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400"
-                        onClick={() => navigate('/jointeam')}
+                        onClick={() => navigate('/create-teams')}
                     >
                         Create or Join Team
                     </button>
@@ -131,7 +131,7 @@ export default function ViewDetails(){
                     {/* Find Team Button */}
                     <button
                         className="w-full py-4 px-6 text-lg font-semibold text-white bg-green-600 rounded-lg shadow-lg hover:bg-green-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-400"
-                        onClick={() => navigate('/findmate')}
+                        onClick={() => navigate('/pairing')}
                     >
                         Find a Team
                     </button>

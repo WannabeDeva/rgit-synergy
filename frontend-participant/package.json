@@ -19,6 +19,7 @@
     "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.1",
     "@shadcn/ui": "^0.0.4",
+    "@zegocloud/zego-uikit-prebuilt": "^2.14.1",
     "animate.css": "^4.1.1",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",

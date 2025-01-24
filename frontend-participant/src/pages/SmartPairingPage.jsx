@@ -23,16 +23,32 @@ const SmartPairingPage = () => {
     // Simulate API call delay
     setTimeout(() => {
       // Smart pairing logic
-      const matchedTeam = participants.filter((p) => {
-        if (p.id === currentParticipant.id) return false; // Exclude self
-        const commonSkills = p.skills.filter((skill) =>
-          currentParticipant.skills.includes(skill)
-        );
-        const commonInterests = p.interests.filter((interest) =>
-          currentParticipant.interests.includes(interest)
-        );
-        return commonSkills.length > 0 || commonInterests.length > 0;
-      });
+      const scoredParticipants = participants
+        .filter((p) => p.id !== currentParticipant.id) // Exclude self
+        .map((p) => {
+          const commonSkills = p.skills.filter((skill) =>
+            currentParticipant.skills.includes(skill)
+          );
+          const commonInterests = p.interests.filter((interest) =>
+            currentParticipant.interests.includes(interest)
+          );
+
+          // Calculate a score based on common skills, interests, and experience
+          const score =
+            commonSkills.length * 2 + // Skills have higher weight
+            commonInterests.length +
+            Math.min(p.experience, 5); // Cap experience contribution to 5
+
+          return { ...p, score };
+        });
+
+      // Sort participants by score in descending order
+      const sortedParticipants = scoredParticipants.sort(
+        (a, b) => b.score - a.score
+      );
+
+      // Select the top 3 participants
+      const matchedTeam = sortedParticipants.slice(0, 3);
 
       setTeam(matchedTeam);
       setIsLoading(false);
@@ -105,6 +121,14 @@ const SmartPairingPage = () => {
                     </p>
                     <p className="text-sm text-gray-500">
                       Interests: {member.interests.join(", ")}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Experience: {member.experience} years
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">
+                      Match Score: {member.score}
                     </p>
                   </div>
                 </li>
