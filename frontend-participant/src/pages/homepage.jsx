@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { User, Calendar, Users, Trophy, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import LandingPage from './landingpage';
 
 
 function Homepage(){
-
+    const hackathonsRef = useRef(null);
     const navigate = useNavigate();
 
     const [hackathons] = useState([
@@ -53,12 +54,16 @@ function Homepage(){
           theme: "Digital Health Solutions"
         }
       ]);
+      const scrollToHackathons = () => {
+        hackathonsRef.current?.scrollIntoView({ behavior: 'smooth' });
+      };
 
       return (
         <div className="min-h-screen bg-gray-50">
+          <LandingPage onExploreClick={scrollToHackathons} />
           
     
-          <main className="max-w-7xl mx-auto px-6 py-8">
+          <main ref={hackathonsRef} className="max-w-7xl mx-auto px-6 py-8">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-bold">Ongoing Hackathons</h2>
               <button className="text-blue-600 hover:text-blue-700 font-medium flex items-center gap-2">
