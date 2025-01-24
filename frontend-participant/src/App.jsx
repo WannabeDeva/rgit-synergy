@@ -10,7 +10,7 @@ import Landingpage from './pages/LandingPage'
 import Mentorpage from './pages/mentorpage'
 import Workspacepage from './pages/workspace'
 import Navbar from './components/Navbar'
-import UserProfile from './pages/UserAuth';
+// import UserProfile from './pages/UserAuth';
 import ViewDetails from './pages/view_details';
 import SmartPairingPage from './pages/SmartPairingPage';
 
@@ -31,7 +31,7 @@ function App() {
     <Router>
       <div>
         {/* Optional: Add a Button or Navbar here */}
-       
+       <Navbar />
 
         <Routes>
           {/* Define routes for the pages */}
@@ -45,7 +45,7 @@ function App() {
           <Route path="/judging" element={<Judgingpage />} />
           <Route path="/mentor" element={<Mentorpage />} />
           <Route path="/workspace" element={<Workspacepage />} />
-          <Route path="/profile" element={<Profile />} />
+          {/* <Route path="/profile" element={<Profile />} /> */}
           <Route path="/details" element={<ViewDetails />} />
           <Route path="/pairing" element={<SmartPairingPage />} />
           <Route path="/myhack" element={<MyHackathonsPage />} />
