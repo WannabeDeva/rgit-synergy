@@ -31,8 +31,8 @@ function App() {
 
         <Routes>
           {/* Define routes for the pages */}
-          <Route path="/" element={<Landingpage />} />
-          <Route path="/homepage" element={<Homepage />} />
+          {/* <Route path="/" element={<Landingpage />} /> */}
+          <Route path="/" element={<Homepage />} />
           <Route path="/create-teams" element={<Create_Teams />} />
           <Route path="/judging" element={<Judgingpage />} />
           <Route path="/mentor" element={<Mentorpage />} />

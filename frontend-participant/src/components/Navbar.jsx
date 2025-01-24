@@ -13,7 +13,7 @@ const ParticipantNavbar = () => {
           variant="link"
           className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600"
         >
-          <Link to="/homepage">HackHub</Link>
+          <Link to="/">HackHub</Link>
         </Button>
 
         {/* My Hackathons Section */}
