@@ -6,15 +6,22 @@ import { Button } from './components/ui/button'
 import Create_Teams from './pages/create_teams'
 import Homepage from './pages/homepage'
 import Judgingpage from './pages/judgingpage'
-import Landingpage from './pages/landingpage'
+import Landingpage from './pages/LandingPage'
 import Mentorpage from './pages/mentorpage'
 import Workspacepage from './pages/workspace'
 import Navbar from './components/Navbar'
 import UserProfile from './pages/UserAuth';
 import ViewDetails from './pages/view_details';
 import SmartPairingPage from './pages/SmartPairingPage';
+<<<<<<< HEAD
 import ProtectedRoute from './components/ProtectedRoute';
 import ProfilePage from './pages/Profile';
+=======
+import MyHackathonsPage from './pages/MyHackathonsPage';
+import LoungePage from './pages/LoungePage';
+import SubmissionsPage from './pages/SubmissionsPage';
+import Leaderboard from './pages/Leaderbaord';
+>>>>>>> 4fd09303af64c666fa9d196a76ca684edecabc0a
 function App() {
   
 
@@ -29,18 +36,10 @@ function App() {
 
         <Routes>
           {/* Define routes for the pages */}
-          <Route path="/" element={<Landingpage />} />
 
-          <Route
-          path="/homepage"
-          element={
-            <ProtectedRoute>
-              <Homepage />
-            </ProtectedRoute>
-          }
-        />
-
-<Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+=======
+          {/* <Route path="/" element={<Landingpage />} /> */}
+          <Route path="/" element={<Homepage />} />
           <Route path="/create-teams" element={<Create_Teams />} />
           <Route path="/judging" element={<Judgingpage />} />
           <Route path="/mentor" element={<Mentorpage />} />
@@ -48,6 +47,10 @@ function App() {
           {/* <Route path="/profile" element={<ProfilePage />} /> */}
           <Route path="/details" element={<ViewDetails />} />
           <Route path="/pairing" element={<SmartPairingPage />} />
+          <Route path="/myhack" element={<MyHackathonsPage />} />
+          <Route path="/lounge" element={<LoungePage />} />
+          <Route path="/submit" element={<SubmissionsPage />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
 
           
         </Routes>

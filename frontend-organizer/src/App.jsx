@@ -17,7 +17,7 @@ function App() {
       <Routes>
         {/* Define routes for each page */}
         <Route path="/" element={<Homepage />} />
-        <Route path="/overview" element={<Overview />} />
+        <Route path="/overview/:id" element={<Overview />} />
         <Route path="/teams" element={<TeamsList />} />
         <Route path="/teams/:teamId" element={<TeamDetails />} />
         <Route path="/announcements" element={<Announcements />} />
