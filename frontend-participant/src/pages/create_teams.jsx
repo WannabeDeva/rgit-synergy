@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { CheckCircle, Copy, Share } from 'lucide-react';
+import { CheckCircle, Copy, Users, PlusCircle, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const TeamManagementPage = () => {
     const [teamName, setTeamName] = useState('');
     const [teamCode, setTeamCode] = useState('');
     const [teamCodeInput, setTeamCodeInput] = useState('');
     const [isCopied, setIsCopied] = useState(false);
-    const [createdTeam, setCreatedTeam] = useState(null); // New state to store created team info
-    const [teamMembers, setTeamMembers] = useState([
-      { name: 'Creator', role: 'Leader', photo: 'https://via.placeholder.com/50' }, // Placeholder photo
-    ]); // Initial member (creator)
-    const [isApplying, setIsApplying] = useState(false); // Whether the user clicked apply
+    const [createdTeam, setCreatedTeam] = useState(null);
+    const [teamMembers, setTeamMembers] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isApplyAvailable, setIsApplyAvailable] = useState(false);
+    const navigate = useNavigate();
   
     const generateTeamCode = () => {
       const code = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -20,19 +21,53 @@ const TeamManagementPage = () => {
     const handleCreateTeam = () => {
       if (teamName.trim() !== '') {
         generateTeamCode();
-        // Create the team and assign the creator as the leader
         const newTeam = {
           name: teamName,
           code: teamCode,
-          members: [{ name: 'Creator', role: 'Leader', photo: 'https://via.placeholder.com/50' }],
         };
+        
+        const leaderMember = { 
+          name: 'Team Creator', 
+          role: 'Leader', 
+          photo: 'https://via.placeholder.com/50' 
+        };
+        
         setCreatedTeam(newTeam);
+        setTeamMembers([leaderMember]);
+        setErrorMessage('');
+      } else {
+        setErrorMessage('Please enter a team name');
       }
     };
   
     const handleJoinTeam = () => {
-      if (teamCodeInput.trim() !== '') {
-        // Add logic to join the team using the provided team code
+      if (!createdTeam) {
+        setErrorMessage('Please create a team first');
+        return;
+      }
+
+      if (teamCodeInput.trim() === teamCode) {
+        const newMember = { 
+          name: `Member ${teamMembers.length + 1}`, 
+          role: 'Member', 
+          photo: 'https://via.placeholder.com/50' 
+        };
+        
+        const memberExists = teamMembers.some(member => member.name === newMember.name);
+        
+        if (!memberExists) {
+          const updatedMembers = [...teamMembers, newMember];
+          setTeamMembers(updatedMembers);
+          setTeamCodeInput('');
+          setErrorMessage('');
+          
+          // Check if apply button should be shown
+          setIsApplyAvailable(updatedMembers.length >= 2);
+        } else {
+          setErrorMessage('Member already in the team');
+        }
+      } else {
+        setErrorMessage('Invalid team code');
       }
     };
   
@@ -43,116 +78,144 @@ const TeamManagementPage = () => {
     };
   
     const handleApply = () => {
-      // Logic to apply to the team (e.g., add the current user as a member)
-      if (isApplying) {
-        setTeamMembers([...teamMembers, { name: 'New Member', role: 'Member', photo: 'https://via.placeholder.com/50' }]);
-      }
+      // Logic for applying to the team (can be expanded later)
+      console.log('Applied to team');
     };
   
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6 space-y-6">
-        {/* Back Button */}
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center justify-center p-6">
         <button
-          className="absolute top-4 left-4 bg-gray-200 text-gray-800 px-4 py-2 rounded-md shadow hover:bg-gray-300"
-          onClick={() => navigate(-1)} // Go back to the previous page
+          onClick={() => navigate(-1)}
+          className="absolute top-6 left-6 bg-white shadow-md p-2 rounded-full hover:bg-gray-100 transition"
         >
-          Back
+          <ArrowLeft className="text-gray-700" />
         </button>
-  
-        {/* First Container: Team Management */}
-        <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 space-y-6">
-          <h1 className="text-2xl font-bold text-center">Team Management</h1>
-  
-          {/* Create Team */}
-          <div>
-            <h2 className="text-xl font-bold mb-2">Create Team</h2>
-            <div className="flex items-center space-x-2">
-              <input
-                type="text"
-                className="flex-1 rounded-md border-gray-300 shadow-sm"
-                placeholder="Enter team name"
-                value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
-              />
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                onClick={handleCreateTeam}
-              >
-                Create
-              </button>
-            </div>
-            {teamCode && (
-              <div className="mt-2 flex items-center space-x-2">
-                <div className="bg-gray-100 px-4 py-2 rounded-md flex-1">{teamCode}</div>
-                <button
-                  className="bg-gray-100 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-200"
-                  onClick={handleCopyToClipboard}
-                >
-                  {isCopied ? (
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <Copy className="h-5 w-5" />
-                  )}
-                </button>
+
+        <div className="w-full max-w-lg space-y-6">
+          {/* Team Creation and Management Card */}
+          <div className="bg-white shadow-2xl rounded-2xl p-8 border-t-4 border-blue-500">
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-6 flex items-center justify-center">
+              <Users className="mr-3 text-blue-600" /> Team Management
+            </h1>
+
+            {errorMessage && (
+              <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-r-lg">
+                <p>{errorMessage}</p>
               </div>
             )}
-          </div>
-  
-          {/* Join Team */}
-          <div>
-            <h2 className="text-xl font-bold mb-2">Join Team</h2>
-            <div className="flex items-center space-x-2">
-              <input
-                type="text"
-                className="flex-1 rounded-md border-gray-300 shadow-sm"
-                placeholder="Enter team code"
-                value={teamCodeInput}
-                onChange={(e) => setTeamCodeInput(e.target.value)}
-              />
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                onClick={handleJoinTeam}
-              >
-                Join
-              </button>
+
+            {/* Create Team Section */}
+            <div className="mb-6">
+              <div className="flex items-center space-x-3 mb-4">
+                <PlusCircle className="text-blue-600" />
+                <h2 className="text-xl font-semibold text-gray-700">Create Team</h2>
+              </div>
+              <div className="flex space-x-3">
+                <input
+                  type="text"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter team name"
+                  value={teamName}
+                  onChange={(e) => setTeamName(e.target.value)}
+                />
+                <button
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+                  onClick={handleCreateTeam}
+                >
+                  Create
+                </button>
+              </div>
+
+              {teamCode && (
+                <div className="mt-4 flex items-center space-x-3">
+                  <div className="flex-1 bg-gray-100 px-4 py-2 rounded-lg text-gray-700">
+                    Team Code: {teamCode}
+                  </div>
+                  <button 
+                    onClick={handleCopyToClipboard}
+                    className="bg-gray-100 p-2 rounded-lg hover:bg-gray-200"
+                  >
+                    {isCopied ? (
+                      <CheckCircle className="text-green-500" />
+                    ) : (
+                      <Copy className="text-gray-600" />
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-  
-        {/* Second Container: Display created team information */}
-        {createdTeam && (
-          <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-6 space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-2xl font-semibold text-gray-800">Team Created: {createdTeam.name}</h3>
-              <span className="px-3 py-1 text-xs font-semibold text-white bg-blue-500 rounded-full">
-                Active
-              </span>
-            </div>
+
+            {/* Join Team Section */}
             <div>
-              <h4 className="text-lg font-semibold text-gray-700 mb-3">Team Members:</h4>
+              <div className="flex items-center space-x-3 mb-4">
+                <Users className="text-blue-600" />
+                <h2 className="text-xl font-semibold text-gray-700">Join Team</h2>
+              </div>
+              <div className="flex space-x-3">
+                <input
+                  type="text"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter team code"
+                  value={teamCodeInput}
+                  onChange={(e) => setTeamCodeInput(e.target.value)}
+                />
+                <button
+                  className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+                  onClick={handleJoinTeam}
+                >
+                  Join
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Team Members Display */}
+          {createdTeam && (
+            <div className="bg-white shadow-2xl rounded-2xl p-8 border-t-4 border-green-500">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-800">
+                  {createdTeam.name}
+                </h3>
+                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
+                  {teamMembers.length} Members
+                </span>
+              </div>
+
               <div className="space-y-4">
                 {teamMembers.map((member, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition-all"
+                  <div 
+                    key={index} 
+                    className="flex items-center space-x-4 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition"
                   >
-                    <img
-                      src={member.photo}
-                      alt={member.name}
-                      className="w-14 h-14 rounded-full object-cover border-2 border-blue-500"
+                    <img 
+                      src={member.photo} 
+                      alt={member.name} 
+                      className="w-12 h-12 rounded-full border-2 border-blue-500"
                     />
                     <div>
-                      <p className="text-lg font-medium text-gray-800">{member.name}</p>
-                      {member.role === 'Leader' && (
-                        <span className="text-sm text-blue-600 font-semibold">Leader</span>
-                      )}
+                      <p className="font-semibold text-gray-800">{member.name}</p>
+                      <span className={`text-sm font-medium ${member.role === 'Leader' ? 'text-blue-600' : 'text-gray-500'}`}>
+                        {member.role}
+                      </span>
                     </div>
                   </div>
                 ))}
               </div>
+
+              {/* Apply Button */}
+              {isApplyAvailable && (
+                <div className="mt-6 flex justify-center">
+                  <button
+                    className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+                    onClick={() => navigate("/")}
+                  >
+                    Apply to Team
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     );
   };

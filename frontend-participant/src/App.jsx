@@ -17,6 +17,7 @@ import MyHackathonsPage from './pages/MyHackathonsPage';
 import LoungePage from './pages/LoungePage';
 import SubmissionsPage from './pages/SubmissionsPage';
 import Leaderboard from './pages/Leaderbaord';
+import RoomPage from './pages/room';
 function App() {
   
 
@@ -44,6 +45,7 @@ function App() {
           <Route path="/lounge" element={<LoungePage />} />
           <Route path="/submit" element={<SubmissionsPage />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/room" element={<RoomPage />} />
 
           
         </Routes>
