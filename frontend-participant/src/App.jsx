@@ -13,15 +13,13 @@ import Navbar from './components/Navbar'
 import UserProfile from './pages/UserAuth';
 import ViewDetails from './pages/view_details';
 import SmartPairingPage from './pages/SmartPairingPage';
-<<<<<<< HEAD
-import ProtectedRoute from './components/ProtectedRoute';
-import ProfilePage from './pages/Profile';
-=======
+
+
 import MyHackathonsPage from './pages/MyHackathonsPage';
 import LoungePage from './pages/LoungePage';
 import SubmissionsPage from './pages/SubmissionsPage';
 import Leaderboard from './pages/Leaderbaord';
->>>>>>> 4fd09303af64c666fa9d196a76ca684edecabc0a
+
 function App() {
   
 
@@ -44,7 +42,7 @@ function App() {
           <Route path="/judging" element={<Judgingpage />} />
           <Route path="/mentor" element={<Mentorpage />} />
           <Route path="/workspace" element={<Workspacepage />} />
-          {/* <Route path="/profile" element={<ProfilePage />} /> */}
+          <Route path="/profile" element={<Profile />} />
           <Route path="/details" element={<ViewDetails />} />
           <Route path="/pairing" element={<SmartPairingPage />} />
           <Route path="/myhack" element={<MyHackathonsPage />} />
