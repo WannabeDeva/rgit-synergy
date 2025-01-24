@@ -10,13 +10,18 @@ import Landingpage from './pages/LandingPage'
 import Mentorpage from './pages/mentorpage'
 import Workspacepage from './pages/workspace'
 import Navbar from './components/Navbar'
-import UserProfile from './pages/user_profile';
+import UserProfile from './pages/UserAuth';
 import ViewDetails from './pages/view_details';
 import SmartPairingPage from './pages/SmartPairingPage';
+<<<<<<< HEAD
+import ProtectedRoute from './components/ProtectedRoute';
+import ProfilePage from './pages/Profile';
+=======
 import MyHackathonsPage from './pages/MyHackathonsPage';
 import LoungePage from './pages/LoungePage';
 import SubmissionsPage from './pages/SubmissionsPage';
 import Leaderboard from './pages/Leaderbaord';
+>>>>>>> 4fd09303af64c666fa9d196a76ca684edecabc0a
 function App() {
   
 
@@ -27,17 +32,19 @@ function App() {
     <Router>
       <div>
         {/* Optional: Add a Button or Navbar here */}
-        <Navbar />
+       
 
         <Routes>
           {/* Define routes for the pages */}
+
+=======
           {/* <Route path="/" element={<Landingpage />} /> */}
           <Route path="/" element={<Homepage />} />
           <Route path="/create-teams" element={<Create_Teams />} />
           <Route path="/judging" element={<Judgingpage />} />
           <Route path="/mentor" element={<Mentorpage />} />
           <Route path="/workspace" element={<Workspacepage />} />
-          <Route path="/profile" element={<UserProfile />} />
+          {/* <Route path="/profile" element={<ProfilePage />} /> */}
           <Route path="/details" element={<ViewDetails />} />
           <Route path="/pairing" element={<SmartPairingPage />} />
           <Route path="/myhack" element={<MyHackathonsPage />} />
