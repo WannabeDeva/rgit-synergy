@@ -12,7 +12,7 @@ import HospitalLocator from './pages/HospitalLocator';
 import SymptomChecker from './pages/SymptomChecker';
 import FirstAidGuide from './pages/FirstAidGuide';
 import MedicalRecords from './pages/MedicalRecords';
-// import LiveVideoCall from './pages/LiveVideoCall';
+import LiveVideoCall from './pages/LiveVideoCall';
 import Community from './pages/Community';
 
 import SignUpForm from './pages/SignUp/Signup';
@@ -20,9 +20,10 @@ import SignUpForm from './pages/SignUp/Signup';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import EmergencyMgmt from './pages/admin/EmergencyMgmt';
 import Notifs from './pages/admin/Notifs';
-import VideoCallPage from './pages/admin/Videocall';
-import VideoCall from './pages/VideoCall';
+// import VideoCallPage from './pages/admin/Videocall';
+// import LiveVideoCall from './pages/LiveVideoCall';
 import ProfileForm from './pages/SignUp/ProfileForm';
+import VideoCallDoctor from './pages/admin/Videocall';
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/video/:roomID/:userID/:userName" element={<VideoCall/>} />
+        {/* <Route path="/video/:roomID/:userID/:userName" element={<VideoCall/>} /> */}
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/profile" element={<ProfileForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -39,13 +40,13 @@ function App() {
         <Route path="/symptom-checker" element={<SymptomChecker />} />
         <Route path="/first-aid-guide" element={<FirstAidGuide />} />
         <Route path="/medical-records" element={<MedicalRecords />} />
-        {/* <Route path="/live-video-call" element={<LiveVideoCall />} /> */}
+        <Route path="/videocall" element={<LiveVideoCall />} />
         <Route path="/community" element={<Community />} />
 
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/emergency" element={<EmergencyMgmt />} />
         <Route path="/admin/notifs" element={<Notifs />} />
-        <Route path="/admin/videocall" element={<VideoCallPage />} />
+        <Route path="/admin/videocall" element={<VideoCallDoctor />} />
 
       </Routes>
       <Footer />
