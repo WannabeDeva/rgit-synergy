@@ -148,7 +148,8 @@ const ProfileForm = () => {
     
     try {
       const token = await getToken();
-
+        console.log(formData);
+        
       const response = await fetch('http://localhost:3000/api/profile', {
         method: 'POST',
         headers: {
