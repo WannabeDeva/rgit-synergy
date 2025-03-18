@@ -10,8 +10,135 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Navbar from '@/components/Navbar';
+import { geminiModel } from '../utils/geminiClient';
 
 const SymptomChecker = () => {
+
+  const parseGeminiResponse = (text) => {
+    try {
+      // Split the response into individual conditions
+      const conditionBlocks = text.split(/(?=Condition:|CONDITION:)/i).filter(block => block.trim());
+      
+      if (conditionBlocks.length === 0) {
+        // Fallback for unstructured responses
+        return [{
+          name: "Possible Condition",
+          probability: 65,
+          severity: "Moderate",
+          urgency: "Monitor",
+          recommendations: text.split('\n').filter(line => line.trim().startsWith('-') || line.trim().startsWith('*'))
+            .map(line => line.replace(/^[-*•]\s*/, "").trim())
+        }];
+      }
+      
+      return conditionBlocks.map(block => {
+        // Extract the condition name
+        const nameMatch = block.match(/(?:Condition|CONDITION):\s*([^\n]+)/i);
+        const name = nameMatch ? nameMatch[1].trim() : "Unidentified Condition";
+        
+        // Extract the severity
+        const severityMatch = block.match(/(?:Severity|SEVERITY):\s*([^\n]+)/i);
+        const severity = severityMatch ? 
+                         severityMatch[1].trim().toLowerCase().includes('high') ? 'High' :
+                         severityMatch[1].trim().toLowerCase().includes('low') ? 'Low' : 'Moderate'
+                         : 'Moderate';
+        
+        // Extract the urgency
+        const urgencyMatch = block.match(/(?:Urgency|URGENCY):\s*([^\n]+)/i);
+        let urgency = 'Monitor';
+        if (urgencyMatch) {
+          const urgencyText = urgencyMatch[1].trim().toLowerCase();
+          if (urgencyText.includes('seek') || urgencyText.includes('emergency')) {
+            urgency = 'Seek care';
+          } else if (urgencyText.includes('advice') || urgencyText.includes('consult')) {
+            urgency = 'Medical advice';
+          } else if (urgencyText.includes('non') || urgencyText.includes('home')) {
+            urgency = 'Non-urgent';
+          }
+        }
+        
+        // Extract the probability
+        const probabilityMatch = block.match(/(?:Probability|PROBABILITY):\s*(\d+)%/i);
+        // Also try to capture just numbers followed by % anywhere in the text
+        const altProbabilityMatch = block.match(/(\d+)(?:\.\d+)?%/);
+        const probability = probabilityMatch ? parseInt(probabilityMatch[1], 10) : 
+                           altProbabilityMatch ? parseInt(altProbabilityMatch[1], 10) : 
+                           Math.floor(Math.random() * 40) + 40; // Random between 40-80% if not found
+        
+        // Extract the recommendations
+        let recommendations = [];
+        
+        // First, try to find a recommendations section
+        const recommendationsMatch = block.match(/(?:Recommendations|RECOMMENDATIONS):\s*([\s\S]*?)(?=(?:\n\n|\n(?:Condition|CONDITION|$)))/i);
+        
+        if (recommendationsMatch) {
+          // Process the recommendations section
+          recommendations = recommendationsMatch[1]
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line.startsWith('-') || line.startsWith('*') || line.startsWith('•'))
+            .map(line => line.replace(/^[-*•]\s*/, "").trim());
+        }
+        
+        // If we couldn't find recommendations with bullet points, look for any text after "Recommendations:"
+        if (recommendations.length === 0) {
+          const simpleRecommendationsMatch = block.match(/(?:Recommendations|RECOMMENDATIONS):\s*([^\n]+)/i);
+          if (simpleRecommendationsMatch) {
+            recommendations = [simpleRecommendationsMatch[1].trim()];
+          }
+        }
+        
+        // If still no recommendations, check for any sentences that sound like advice
+        if (recommendations.length === 0) {
+          const adviceLines = block.split('\n').filter(line => 
+            (line.toLowerCase().includes('should') || 
+             line.toLowerCase().includes('recommend') || 
+             line.toLowerCase().includes('advised') ||
+             line.toLowerCase().includes('take ') ||
+             line.toLowerCase().includes('rest') ||
+             line.toLowerCase().includes('drink')) && 
+            !line.toLowerCase().includes('condition:') &&
+            !line.toLowerCase().includes('severity:') &&
+            !line.toLowerCase().includes('urgency:') &&
+            !line.toLowerCase().includes('probability:')
+          );
+          
+          recommendations = adviceLines.map(line => line.trim());
+        }
+        
+        // Default recommendation if none found
+        if (recommendations.length === 0) {
+          if (severity === 'High') {
+            recommendations = ["Consult a healthcare provider promptly."];
+          } else if (severity === 'Moderate') {
+            recommendations = ["Monitor symptoms and rest. Seek medical advice if symptoms worsen."];
+          } else {
+            recommendations = ["Rest and maintain hydration. Use over-the-counter remedies as appropriate."];
+          }
+        }
+        
+        return {
+          name,
+          probability,
+          severity,
+          urgency,
+          recommendations,
+        };
+      });
+    } catch (error) {
+      console.error("Error parsing Gemini response:", error);
+      return [
+        {
+          name: "Analysis Error",
+          probability: 0,
+          severity: "Moderate",
+          urgency: "Monitor",
+          recommendations: ["Failed to parse AI response. Please try again with more specific symptoms."],
+        },
+      ];
+    }
+  };
+
   const [symptoms, setSymptoms] = useState([]);
   const [currentSymptom, setCurrentSymptom] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -20,35 +147,12 @@ const SymptomChecker = () => {
   const [step, setStep] = useState(1);
   const [severity, setSeverity] = useState('moderate');
   const [duration, setDuration] = useState('days');
+  const [error, setError] = useState(null);
 
   const commonSymptoms = [
     'Headache', 'Fever', 'Cough', 'Nausea', 
     'Dizziness', 'Fatigue', 'Chest Pain', 'Shortness of Breath',
     'Abdominal Pain', 'Vomiting', 'Sore Throat'
-  ];
-
-  const possibleConditions = [
-    { 
-      name: 'Common Cold', 
-      probability: 72, 
-      severity: 'Low',
-      urgency: 'Non-urgent',
-      recommendations: ['Rest', 'Hydration', 'Over-the-counter cold medicine']
-    },
-    { 
-      name: 'Influenza', 
-      probability: 56, 
-      severity: 'Moderate',
-      urgency: 'Monitor',
-      recommendations: ['Rest', 'Fluids', 'Acetaminophen for fever', 'Monitor for worsening symptoms']
-    },
-    { 
-      name: 'COVID-19', 
-      probability: 31, 
-      severity: 'Moderate',
-      urgency: 'Medical advice',
-      recommendations: ['Isolate', 'Testing recommended', 'Consult healthcare provider']
-    }
   ];
 
   const handleAddSymptom = () => {
@@ -74,22 +178,82 @@ const SymptomChecker = () => {
     }
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
+    if (symptoms.length === 0) {
+      setError("Please add at least one symptom before analyzing.");
+      return;
+    }
+  
     setIsAnalyzing(true);
     setProgress(0);
-    
-    // Simulate analysis progress
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setIsAnalyzing(false);
-          setResult(possibleConditions);
-          return 100;
-        }
-        return prev + 5;
-      });
-    }, 120);
+    setError(null);
+  
+    // Prepare a more structured prompt for Gemini AI
+    const prompt = `
+      You are a medical AI assistant helping analyze symptoms. Provide a structured analysis of these symptoms:
+      
+      Symptoms: ${symptoms.join(", ")}
+      Severity described by patient: ${severity}
+      Duration: ${duration}
+      
+      Analyze and list the top 3-5 most likely conditions that match these symptoms.
+      
+      For EACH condition, provide this EXACT format - do not deviate from this structure:
+      
+      Condition: [Full condition name]
+      Severity: [Low/Moderate/High]
+      Urgency: [Non-urgent/Monitor/Medical advice/Seek care]
+      Probability: [XX]%
+      Recommendations:
+      - [Specific recommendation 1]
+      - [Specific recommendation 2]
+      - [Specific recommendation 3]
+      
+      IMPORTANT: Always include the condition name, proper bullet points for recommendations, and make sure each condition is clearly separated.
+    `;
+  
+    try {
+      // Simulate progress
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 95) {
+            clearInterval(interval);
+            return 95;
+          }
+          return prev + 5;
+        });
+      }, 120);
+  
+      // Call Gemini AI
+      const result = await geminiModel.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+  
+      // Parse the response
+      const parsedResult = parseGeminiResponse(text);
+      
+      // Log the parsed results for debugging
+      console.log("Raw response:", text);
+      console.log("Parsed results:", parsedResult);
+  
+      // Update the state with the analysis result
+      setResult(parsedResult);
+      setProgress(100);
+    } catch (error) {
+      console.error("Error analyzing symptoms with Gemini AI:", error);
+      setError("Failed to analyze symptoms. Please try again or check your connection.");
+      setResult([
+        {
+          name: "Analysis Error",
+          probability: 0,
+          severity: "Moderate",
+          urgency: "Monitor",
+          recommendations: ["Failed to analyze symptoms. Please try again or add more specific details."],
+        },
+      ]);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const resetChecker = () => {
@@ -101,10 +265,12 @@ const SymptomChecker = () => {
     setStep(1);
     setSeverity('moderate');
     setDuration('days');
+    setError(null);
   };
 
   const nextStep = () => {
     setStep(step + 1);
+    setError(null);
   };
 
   const getSeverityColor = (severity) => {
@@ -130,7 +296,7 @@ const SymptomChecker = () => {
     <div>
       <Navbar />
     <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-4xl mx-auto pt-6 pb-16">
+      <div className="max-w-6xl mx-auto pt-6 pb-16"> {/* Updated max-width to 6xl */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -143,11 +309,20 @@ const SymptomChecker = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6"> {/* Removed md:grid-cols-3 */}
           {/* Main Symptom Input Column */}
-          <div className="md:col-span-2">
+          <div>
             <Card className="border-none shadow-lg bg-white overflow-hidden">
               <CardContent className="p-6">
+                {error && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm">
+                    <div className="flex items-start">
+                      <AlertCircle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
+                      <span>{error}</span>
+                    </div>
+                  </div>
+                )}
+                
                 {step === 1 && (
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -291,10 +466,10 @@ const SymptomChecker = () => {
                     
                     <div className="space-y-4">
                       {result.map((condition, index) => (
-                        <Card key={index} className="border border-gray-200">
+                        <Card key={index} className="border border-gray-200 hover:shadow-md transition-shadow">
                           <CardContent className="p-4">
                             <div className="flex justify-between items-center mb-2">
-                              <h3 className="font-medium text-gray-900">{condition.name}</h3>
+                              <h3 className="font-medium text-gray-900 text-lg">{condition.name}</h3>
                               <div className="flex items-center">
                                 <span className="text-sm font-medium text-gray-700 mr-2">
                                   {condition.probability}%
@@ -378,116 +553,6 @@ const SymptomChecker = () => {
                   )}
                 </CardFooter>
               )}
-            </Card>
-          </div>
-          
-          {/* Info & Resources Column */}
-          <div>
-            <Card className="border-none shadow-md mb-6">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">Common Concerns</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <ScrollArea className="h-64">
-                  <div className="space-y-4 pr-4">
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-white rounded-lg border border-gray-200 p-3 cursor-pointer hover:shadow-md transition-shadow"
-                    >
-                      <div className="flex items-center">
-                        <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
-                          <HeartPulse className="h-4 w-4 text-red-600" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-gray-900">Chest Pain</h3>
-                          <p className="text-sm text-gray-500">
-                            Could be heart-related or muscle strain
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                    
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-white rounded-lg border border-gray-200 p-3 cursor-pointer hover:shadow-md transition-shadow"
-                    >
-                      <div className="flex items-center">
-                        <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
-                          <Brain className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-gray-900">Headaches</h3>
-                          <p className="text-sm text-gray-500">
-                            Types, causes, and when to seek help
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                    
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-white rounded-lg border border-gray-200 p-3 cursor-pointer hover:shadow-md transition-shadow"
-                    >
-                      <div className="flex items-center">
-                        <div className="h-8 w-8 rounded-full bg-orange-100 flex items-center justify-center mr-3">
-                          <Thermometer className="h-4 w-4 text-orange-600" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-gray-900">Fever</h3>
-                          <p className="text-sm text-gray-500">
-                            When to worry about high temperature
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                    
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="bg-white rounded-lg border border-gray-200 p-3 cursor-pointer hover:shadow-md transition-shadow"
-                    >
-                      <div className="flex items-center">
-                        <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center mr-3">
-                          <AlertCircle className="h-4 w-4 text-purple-600" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-gray-900">Skin Rashes</h3>
-                          <p className="text-sm text-gray-500">
-                            Identifying common skin conditions
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </div>
-                </ScrollArea>
-              </CardContent>
-            </Card>
-            
-            <Card className="border-none shadow-md">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">Need Immediate Help?</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="space-y-4">
-                  <p className="text-sm text-gray-600">
-                    If you're experiencing severe symptoms that could be life-threatening, please seek emergency care immediately.
-                  </p>
-                  
-                  <div className="bg-red-50 border border-red-200 rounded-md p-3">
-                    <h3 className="text-sm font-medium text-red-800 mb-1">Emergency symptoms include:</h3>
-                    <ul className="text-sm text-red-700 list-disc pl-5 space-y-1">
-                      <li>Difficulty breathing</li>
-                      <li>Severe chest pain</li>
-                      <li>Sudden severe headache</li>
-                      <li>Uncontrollable bleeding</li>
-                      <li>Loss of consciousness</li>
-                    </ul>
-                  </div>
-                  
-                  <Button className="w-full bg-red-600 hover:bg-red-700">
-                    Call Emergency Services
-                  </Button>
-                </div>
-              </CardContent>
             </Card>
           </div>
         </div>
