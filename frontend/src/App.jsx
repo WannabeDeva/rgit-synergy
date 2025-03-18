@@ -14,6 +14,7 @@ import FirstAidGuide from './pages/FirstAidGuide';
 import MedicalRecords from './pages/MedicalRecords';
 // import LiveVideoCall from './pages/LiveVideoCall';
 import Community from './pages/Community';
+import SignUpForm from './pages/SignUp/Signup';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignUpForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/emergency-sos" element={<EmergencySOS />} />
         <Route path="/hospital-locator" element={<HospitalLocator />} />
