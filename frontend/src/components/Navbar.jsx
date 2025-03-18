@@ -20,6 +20,7 @@ const Navbar = () => {
   const { isSignedIn } = useUser(); // Check if user is logged in
 
   const navItems = [
+
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Features", path: "/features" },
@@ -72,8 +73,16 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
+
           <div ref={logoRef} className="h-8 w-8 rounded-full bg-primary" />
           <span className="text-xl font-bold">HackUI</span>
+
+          <div
+            ref={logoRef}
+            className="h-8 w-8 rounded-full bg-primary"
+          />
+          <span className="text-xl font-bold">MediAid</span>
+
         </Link>
 
         {/* Desktop navigation */}

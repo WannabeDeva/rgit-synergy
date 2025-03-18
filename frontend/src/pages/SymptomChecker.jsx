@@ -9,6 +9,7 @@ import { Progress } from '@/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Navbar from '@/components/Navbar';
 
 const SymptomChecker = () => {
   const [symptoms, setSymptoms] = useState([]);
@@ -126,6 +127,8 @@ const SymptomChecker = () => {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-4xl mx-auto pt-6 pb-16">
         <motion.div
@@ -489,6 +492,7 @@ const SymptomChecker = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

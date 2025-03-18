@@ -9,6 +9,7 @@ import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import Navbar from '@/components/Navbar';
 
 const EmergencySOS = () => {
   const [isActivated, setIsActivated] = useState(false);
@@ -62,6 +63,8 @@ const EmergencySOS = () => {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-4xl mx-auto pt-6 pb-16">
         <motion.div
@@ -294,6 +297,7 @@ const EmergencySOS = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+    </div>
     </div>
   );
 };

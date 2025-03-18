@@ -14,12 +14,19 @@ import FirstAidGuide from './pages/FirstAidGuide';
 import MedicalRecords from './pages/MedicalRecords';
 // import LiveVideoCall from './pages/LiveVideoCall';
 import Community from './pages/Community';
+
 import SignUpForm from './pages/SignUp/Signup';
+
+import AdminDashboard from './pages/admin/AdminDashboard';
+import EmergencyMgmt from './pages/admin/EmergencyMgmt';
+import Notifs from './pages/admin/Notifs';
+import VideoCallPage from './pages/admin/Videocall';
+
 
 function App() {
   return (
     <Router>
-      <Navbar />
+      
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUpForm />} />
@@ -31,6 +38,12 @@ function App() {
         <Route path="/medical-records" element={<MedicalRecords />} />
         {/* <Route path="/live-video-call" element={<LiveVideoCall />} /> */}
         <Route path="/community" element={<Community />} />
+
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/emergency" element={<EmergencyMgmt />} />
+        <Route path="/admin/notifs" element={<Notifs />} />
+        <Route path="/admin/videocall" element={<VideoCallPage />} />
+
       </Routes>
       <Footer />
     </Router>
