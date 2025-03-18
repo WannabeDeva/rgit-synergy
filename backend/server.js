@@ -482,9 +482,11 @@ app.post('/api/profile', async (req, res) => {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const { email, phone, bloodGroup, diseases, emergencyContacts, aadharDetails } = req.body;
+    const { email, phone, bloodGroup, diseases, emergencyContacts, aadharDetails, username, age} = req.body;
  
     await db.collection('users').doc(clerkUserId).set({
+      username,
+      age,
       email,
       phone,
       bloodGroup,
