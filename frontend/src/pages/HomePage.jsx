@@ -153,7 +153,7 @@ const HomePage = () => {
             variants={item}
             whileHover={{ y: -5, transition: { duration: 0.2 } }}
           >
-            <Link to="/community">
+            <Link to="/videocall">
               <Card className="bg-purple-100 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
                 <CardContent>
                   <Phone className="h-12 w-12 text-purple-500 mb-4" />

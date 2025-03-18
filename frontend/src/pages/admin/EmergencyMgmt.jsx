@@ -44,12 +44,12 @@ const EmergencyMgmt = () => {
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
-  // Mock data
+  // Mock data with Indian-specific details
   const emergencyCases = [
     { 
       id: 'E-2503', 
-      patient: 'John Doe', 
-      location: '123 Main St, New York', 
+      patient: 'Rajesh Kumar', 
+      location: '123 MG Road, Mumbai', 
       type: 'Cardiac', 
       time: '5 min ago', 
       severity: 'Critical',
@@ -57,7 +57,7 @@ const EmergencyMgmt = () => {
       details: {
         age: 58,
         gender: 'Male',
-        contact: '(555) 123-4567',
+        contact: '+91 98765 43210',
         medicalHistory: 'Hypertension, Previous MI in 2022',
         notes: 'Patient reported chest pain and shortness of breath before collapsing',
         vitalSigns: {
@@ -69,8 +69,8 @@ const EmergencyMgmt = () => {
     },
     { 
       id: 'E-2502', 
-      patient: 'Jane Smith', 
-      location: '456 Park Ave, Boston', 
+      patient: 'Priya Sharma', 
+      location: '456 Connaught Place, Delhi', 
       type: 'Trauma', 
       time: '12 min ago', 
       severity: 'High',
@@ -78,7 +78,7 @@ const EmergencyMgmt = () => {
       details: {
         age: 34,
         gender: 'Female',
-        contact: '(555) 987-6543',
+        contact: '+91 87654 32109',
         medicalHistory: 'No significant history',
         notes: 'Vehicle accident, possible head trauma and leg injury',
         vitalSigns: {
@@ -90,8 +90,8 @@ const EmergencyMgmt = () => {
     },
     { 
       id: 'E-2501', 
-      patient: 'Robert Johnson', 
-      location: '789 Oak Dr, Chicago', 
+      patient: 'Vikram Singh', 
+      location: '789 Brigade Road, Bangalore', 
       type: 'Allergic', 
       time: '18 min ago', 
       severity: 'Medium',
@@ -99,7 +99,7 @@ const EmergencyMgmt = () => {
       details: {
         age: 42,
         gender: 'Male',
-        contact: '(555) 456-7890',
+        contact: '+91 76543 21098',
         medicalHistory: 'Known allergies to nuts',
         notes: 'Accidental peanut exposure, showing signs of anaphylaxis',
         vitalSigns: {
@@ -111,8 +111,8 @@ const EmergencyMgmt = () => {
     },
     { 
       id: 'E-2500', 
-      patient: 'Emily Wilson', 
-      location: '321 Elm St, Seattle', 
+      patient: 'Anjali Gupta', 
+      location: '321 Park Street, Kolkata', 
       type: 'Respiratory', 
       time: '35 min ago', 
       severity: 'High',
@@ -120,7 +120,7 @@ const EmergencyMgmt = () => {
       details: {
         age: 67,
         gender: 'Female',
-        contact: '(555) 234-5678',
+        contact: '+91 65432 10987',
         medicalHistory: 'COPD, Asthma',
         notes: 'Severe asthma attack, responded well to emergency treatment',
         vitalSigns: {
@@ -137,9 +137,9 @@ const EmergencyMgmt = () => {
   );
 
   const responders = [
-    { id: 'R-001', name: 'Dr. Sarah Johnson', specialty: 'Emergency Medicine', status: 'Available' },
+    { id: 'R-001', name: 'Dr. Ananya Reddy', specialty: 'Emergency Medicine', status: 'Available' },
     { id: 'R-002', name: 'Paramedic Team Alpha', specialty: 'Critical Care', status: 'En Route' },
-    { id: 'R-003', name: 'Dr. Michael Chen', specialty: 'Trauma Surgery', status: 'Available' },
+    { id: 'R-003', name: 'Dr. Arjun Mehta', specialty: 'Trauma Surgery', status: 'Available' },
     { id: 'R-004', name: 'Ambulance Unit 42', specialty: 'Transport', status: 'Available' },
   ];
 
