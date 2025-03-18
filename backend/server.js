@@ -481,13 +481,9 @@ app.post('/api/profile', async (req, res) => {
     if (!clerkUserId) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-    
-    // Extract data from the request body using destructuring
+
     const { email, phone, bloodGroup, diseases, emergencyContacts, aadharDetails } = req.body;
-    
-    // Optionally, add further verification that the email from Clerk matches the one provided.
-    
-    // Save the user data to Firestore using the Clerk user ID as the document ID.
+ 
     await db.collection('users').doc(clerkUserId).set({
       email,
       phone,

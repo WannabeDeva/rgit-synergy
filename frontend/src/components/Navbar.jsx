@@ -11,6 +11,7 @@ import {
   useUser 
 } from "@clerk/clerk-react";
 
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -20,7 +21,6 @@ const Navbar = () => {
   const { isSignedIn } = useUser(); // Check if user is logged in
 
   const navItems = [
-
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Features", path: "/features" },
@@ -73,16 +73,8 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-
           <div ref={logoRef} className="h-8 w-8 rounded-full bg-primary" />
-          <span className="text-xl font-bold">HackUI</span>
-
-          <div
-            ref={logoRef}
-            className="h-8 w-8 rounded-full bg-primary"
-          />
           <span className="text-xl font-bold">MediAid</span>
-
         </Link>
 
         {/* Desktop navigation */}
@@ -102,17 +94,25 @@ const Navbar = () => {
           {/* Authentication Buttons */}
           {!isSignedIn ? (
             <>
-              <SignUpButton>
+              <SignUpButton forceRedirectUrl="/profile">
                 <Button size="sm" className="nav-item ml-4">Get Started</Button>
               </SignUpButton>
-              <Link to= '/signup'>
-                <Button>Sign Up</Button>
-              </Link>
+              <SignInButton afterSignInUrl="/">
+                <Button size="sm" variant="outline" className="nav-item">Log In</Button>
+              </SignInButton>
             </>
           ) : (
-            <>
+            <div className="flex items-center space-x-4">
+              <Link 
+                to="/profile" 
+                className={`nav-item px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  location.pathname === "/profile" ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                }`}
+              >
+                Profile
+              </Link>
               <UserButton afterSignOutUrl="/" />
-            </>
+            </div>
           )}
         </nav>
 
@@ -145,20 +145,31 @@ const Navbar = () => {
             <div className="pt-2 menu-item">
               {!isSignedIn ? (
                 <>
-                  <SignUpButton>
+                  <SignUpButton forceRedirectUrl="/profile">
                     <Button size="sm" className="w-full">Get Started</Button>
                   </SignUpButton>
-                  <SignInButton>
-                    <Button size="sm" className="w-full mt-2">Log In</Button>
+                  <SignInButton afterSignInUrl="/">
+                    <Button size="sm" variant="outline" className="w-full mt-2">Log In</Button>
                   </SignInButton>
                 </>
               ) : (
-                <>
-                  <UserButton afterSignOutUrl="/" />
-                  <SignOutButton>
-                    <Button size="sm" className="w-full mt-2">Log Out</Button>
-                  </SignOutButton>
-                </>
+                <div className="space-y-2">
+                  <Link
+                    to="/profile"
+                    className={`block px-3 py-2 rounded-md text-base font-medium ${
+                      location.pathname === "/profile" ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <div className="flex items-center justify-between px-3 py-2">
+                    <UserButton afterSignOutUrl="/" />
+                    <SignOutButton>
+                      <Button size="sm" variant="outline">Log Out</Button>
+                    </SignOutButton>
+                  </div>
+                </div>
               )}
             </div>
           </div>
