@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, Heart, Zap, MapPin, FileText, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import Navbar from '@/components/Navbar';
 
 const HomePage = () => {
   const container = {
@@ -22,6 +23,8 @@ const HomePage = () => {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
       {/* Hero Section */}
       <motion.section 
@@ -161,6 +164,7 @@ const HomePage = () => {
           </motion.div>
         </div>
       </motion.section>
+    </div>
     </div>
   );
 };
