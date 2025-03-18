@@ -14,6 +14,7 @@ import {
   SelectValue 
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Navbar from '@/components/Navbar';
 
 const HospitalLocator = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -105,6 +106,8 @@ const HospitalLocator = () => {
   });
 
   return (
+    <div>
+      <Navbar />
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-4xl mx-auto pt-6 pb-16">
         <motion.div
@@ -338,6 +341,7 @@ const HospitalLocator = () => {
           </Button>
         </div>
       </div>
+    </div>
     </div>
   );
 };
