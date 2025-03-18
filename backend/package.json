@@ -5,6 +5,7 @@
     "start": "nodemon server.js"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^5.1.6",
     "firebase": "^11.4.0",
     "@google/generative-ai": "^0.17.0",
     "axios": "^1.7.7",

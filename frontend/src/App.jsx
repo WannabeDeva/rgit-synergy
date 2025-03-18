@@ -21,15 +21,18 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import EmergencyMgmt from './pages/admin/EmergencyMgmt';
 import Notifs from './pages/admin/Notifs';
 import VideoCallPage from './pages/admin/Videocall';
+import VideoCall from './pages/VideoCall';
+import ProfileForm from './pages/SignUp/ProfileForm';
 
 
 function App() {
   return (
     <Router>
-      
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/video/:roomID/:userID/:userName" element={<VideoCall/>} />
         <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/profile" element={<ProfileForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/emergency-sos" element={<EmergencySOS />} />
         <Route path="/hospital-locator" element={<HospitalLocator />} />

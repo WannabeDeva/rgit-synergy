@@ -9,6 +9,7 @@ import multer from "multer"
 import { db } from "./controllers/firestore.js";
 import twilio from 'twilio'
 import placesRoute from './routes/places.js'
+import { ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
 
 
 const app = express()
@@ -469,6 +470,36 @@ app.put("/update-stock/:vegetableId", async (req, res) => {
 });
 
 app.use('/api/places', placesRoute);
+
+app.use(ClerkExpressWithAuth());
+
+app.post('/api/profile', async (req, res) => {
+  try {
+    // After Clerk middleware, req.auth contains the authenticated user info.
+    const { userId: clerkUserId } = req.auth;
+    
+    if (!clerkUserId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { email, phone, bloodGroup, diseases, emergencyContacts, aadharDetails } = req.body;
+ 
+    await db.collection('users').doc(clerkUserId).set({
+      email,
+      phone,
+      bloodGroup,
+      diseases,
+      emergencyContacts,
+      aadharDetails,
+      createdAt: new Date().toISOString(),
+    });
+    
+    res.status(200).json({ message: 'Profile saved successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
 
 httpserver.listen(3000, () => {
     console.log("server is running on port 3000")
