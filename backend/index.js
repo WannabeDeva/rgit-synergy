@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import admin from "firebase-admin";
 import dotenv from "dotenv";
+import { ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
 
 dotenv.config();
 
@@ -18,23 +19,37 @@ admin.initializeApp({
 const db = admin.firestore();
 
 // API to store user data
-app.post("/register", async (req, res) => {
+app.use(ClerkExpressWithAuth());
+
+app.post('/api/profile', async (req, res) => {
   try {
-    const { userId, phoneNumber, bloodGroup, medicalConditions, emergencyContact, aadhaar } = req.body;
-
-    // Store in Firestore
-    await db.collection("users").doc(userId).set({
-      phoneNumber,
+    // After Clerk middleware, req.auth contains the authenticated user info.
+    const { userId: clerkUserId } = req.auth;
+    
+    if (!clerkUserId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    // Extract data from the request body using destructuring
+    const { email, phone, bloodGroup, diseases, emergencyContacts, aadharDetails } = req.body;
+    
+    // Optionally, add further verification that the email from Clerk matches the one provided.
+    
+    // Save the user data to Firestore using the Clerk user ID as the document ID.
+    await db.collection('users').doc(clerkUserId).set({
+      email,
+      phone,
       bloodGroup,
-      medicalConditions,
-      emergencyContact,
-      aadhaar,
+      diseases,
+      emergencyContacts,
+      aadharDetails,
+      createdAt: new Date().toISOString(),
     });
-
-    res.status(201).json({ message: "User data saved successfully" });
-  } catch (error) {
-    console.error("Error saving user data:", error);
-    res.status(500).json({ error: "Failed to save user data" });
+    
+    res.status(200).json({ message: 'Profile saved successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Something went wrong' });
   }
 });
 
