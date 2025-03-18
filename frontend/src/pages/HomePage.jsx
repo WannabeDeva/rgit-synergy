@@ -4,6 +4,7 @@ import { ChevronRight, Heart, Zap, MapPin, FileText, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Navbar from '@/components/Navbar';
+import Chatbot from '@/components/Chatbot';
 
 const HomePage = () => {
   const container = {
@@ -164,6 +165,7 @@ const HomePage = () => {
           </motion.div>
         </div>
       </motion.section>
+      <Chatbot />
     </div>
     </div>
   );
