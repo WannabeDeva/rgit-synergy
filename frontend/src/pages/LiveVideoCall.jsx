@@ -32,7 +32,7 @@ const LiveVideoCall = () => {
     const mockDoctors = [
       {
         id: 1,
-        name: 'Dr. Sarah Johnson',
+        name: 'Dr. Sarah Khan',
         specialty: 'Cardiology',
         status: 'online',
         responseTime: '< 5 min',
@@ -42,7 +42,7 @@ const LiveVideoCall = () => {
       },
       {
         id: 2,
-        name: 'Dr. Michael Chen',
+        name: 'Dr. Mitrang Jain',
         specialty: 'General Medicine',
         status: 'online',
         responseTime: '< 10 min',
@@ -52,7 +52,7 @@ const LiveVideoCall = () => {
       },
       {
         id: 3,
-        name: 'Dr. Amelia Rodriguez',
+        name: 'Dr. Anamika Maurya',
         specialty: 'Pediatrics',
         status: 'offline',
         responseTime: '2-4 hours',
@@ -62,7 +62,7 @@ const LiveVideoCall = () => {
       },
       {
         id: 4,
-        name: 'Dr. James Wilson',
+        name: 'Dr. Jahnvi Kadam',
         specialty: 'Neurology',
         status: 'online',
         responseTime: '< 15 min',
@@ -82,7 +82,7 @@ const LiveVideoCall = () => {
       },
       {
         id: 6,
-        name: 'Dr. Robert Garcia',
+        name: 'Dr. Atharva Mhatre',
         specialty: 'Orthopedics',
         status: 'offline',
         responseTime: '3-5 hours',
