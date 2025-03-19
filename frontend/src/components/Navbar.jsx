@@ -73,7 +73,7 @@ const Navbar = () => {
       ref={navbarRef}
       className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b"
     >
-      <div className="container mx-auto flex items-center justify-between h-16 px-4">
+      <div className="container mx-auto flex items-center justify-between h-16 px-4 pr-16">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
           {/* <div ref={logoRef} className="h-8 w-8 rounded-full bg-primary" /> */}
@@ -164,8 +164,8 @@ const Navbar = () => {
                       Get Started
                     </Button>
                   </SignUpButton>
-                  <SignInButton afterSignInUrl="/">
-                    <Button size="sm" variant="outline" className="w-full mt-2">
+                  <SignInButton afterSignInUrl="/" >
+                    <Button size="sm" variant="outline" className="w-full mt-2 ">
                       Log In
                     </Button>
                   </SignInButton>
