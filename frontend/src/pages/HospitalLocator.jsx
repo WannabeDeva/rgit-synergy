@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, MapPin, Phone, Star, Clock, Filter, ChevronDown, ChevronUp, Users, Loader } from 'lucide-react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -574,7 +575,7 @@ const HospitalLocator = () => {
           </Tabs>
 
           {/* Quick Filters */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
             <Button 
               variant={selectedType === 'hospital' ? "default" : "outline"} 
               size="sm" 
@@ -582,6 +583,22 @@ const HospitalLocator = () => {
               onClick={() => setSelectedType('hospital')}
             >
               Hospitals
+            </Button>
+            {/* <Button 
+              variant={selectedType === 'ambulance' ? "default" : "outline"} 
+              size="sm" 
+              className="flex items-center gap-1 text-xs"
+              onClick={() => setSelectedType('ambulance')}
+            >
+             Ambulance 
+            </Button> */}
+            <Button 
+              variant={selectedType === 'pharmacy' ? "default" : "outline"} 
+              size="sm" 
+              className="flex items-center gap-1 text-xs"
+              onClick={() => setSelectedType('pharmacy')}
+            >
+              Pharmacy
             </Button>
             <Button 
               variant={selectedType === 'fire_station' ? "default" : "outline"} 

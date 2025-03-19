@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Search, ShoppingCart, AlertCircle, CheckCircle, XCircle, Filter, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,6 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { useNavigate } from "react-router-dom";
 
 const MedicineOrderPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -52,6 +53,7 @@ const MedicineOrderPage = () => {
         categories: [],
         sortBy: 'relevance'
     });
+    const navigate = useNavigate(); // ✅ No 'new' keyword
 
     // Local pharmacy medicines
     const localPharmacyMedicines = [
@@ -804,7 +806,7 @@ const MedicineOrderPage = () => {
                 <div className="hidden lg:block lg:w-1/4">
                     <Card className="sticky top-4">
                         <CardHeader>
-                            <CardTitle className="text-lg font-bold flex items-center">
+                            <CardTitle onClick={()=>{navigate('/pharmacy-locator')}} className="text-lg font-bold flex items-center">
                                 <MapPin className="h-5 w-5 mr-2" /> Nearby Pharmacies
                             </CardTitle>
                         </CardHeader>
