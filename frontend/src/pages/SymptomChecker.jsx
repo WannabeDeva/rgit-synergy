@@ -11,6 +11,8 @@ import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Navbar from '@/components/Navbar';
 import { geminiModel } from '../utils/geminiClient';
+import Chatbot from '@/components/Chatbot';
+import { useUser } from '@clerk/clerk-react';
 
 const SymptomChecker = () => {
 
@@ -555,6 +557,7 @@ const SymptomChecker = () => {
               )}
             </Card>
           </div>
+          <Chatbot />
         </div>
       </div>
     </div>

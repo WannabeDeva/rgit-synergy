@@ -6,8 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import Navbar from '@/components/Navbar';
+import Chatbot from '@/components/Chatbot';
+import { useUser } from '@clerk/clerk-react';
 
 const Dashboard = () => {
+  const {user} = useUser()
   const quickActions = [
     {
       title: "Emergency SOS",
@@ -170,6 +173,7 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </motion.div>
+          <Chatbot />
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import express from 'express'
 import axios from 'axios';
+import { nearby_hospitals } from '../server.js';
 
 const router = express.Router();
 
@@ -26,7 +27,19 @@ router.get('/nearby', async (req, res) => {
         }
       }
     );
-    
+    console.log(response.data.results)
+
+    nearby_hospitals.nearby_hospitals.push(
+        response.data.results.slice(0, 8).map(hospital => ({
+          business_status: hospital.business_status,
+          name: hospital.name,
+          icon: hospital.icon,
+          opening_hours: hospital.opening_hours?.open_now ?? null,  // Handles missing data safely
+          rating: hospital.rating,
+          vicinity: hospital.vicinity
+        }))
+      );
+      
     res.json(response.data);
   } catch (error) {
     console.error('Error fetching nearby places:', error);

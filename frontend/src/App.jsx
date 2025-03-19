@@ -36,7 +36,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
 
-        <Route path="/video" element={<VideoCall/>} />
+        {/* <Route path="/video" element={<VideoCall/>} /> */}
         <Route path="/medicines" element={<MedicineOrderPage />} />
         {/* <Route path="/video/:roomID/:userID/:userName" element={<VideoCall/>} /> */}
         <Route path="/signup" element={<SignUpForm />} />

@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Navbar from '@/components/Navbar';
 import Chatbot from '@/components/Chatbot';
+import { useUser } from '@clerk/clerk-react';
 
 const HomePage = () => {
+  const user = useUser();
   const container = {
     hidden: { opacity: 0 },
     show: {

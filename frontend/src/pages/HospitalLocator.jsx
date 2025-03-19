@@ -16,6 +16,8 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Navbar from '@/components/Navbar';
+import Chatbot from '@/components/Chatbot';
+import { useUser } from '@clerk/clerk-react';
 
 const HospitalLocator = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -617,6 +619,7 @@ const HospitalLocator = () => {
             >
               10km Range
             </Button>
+            <Chatbot />
           </div>
         </div>
       </div>

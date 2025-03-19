@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./styles/chatbot.css";
 import { useSearchResult } from "@/context/SearchContext";
+import { fetchLocationName } from "@/pages/EmergencySOS";
 
 export default function Chatbot() {
   const [transcript1, setTranscript] = useState(null);
@@ -19,7 +20,7 @@ export default function Chatbot() {
   const { storeSearchResult } = useSearchResult();
   const location = useRef();
   const videoRef = useRef(null)
-  const initialtext = "Hello, I am Sarthi, your personal shopping assistant. How may I assist you?"
+  const initialtext = "Hello, I am MedHelper, your personal medical assistant. How may I assist you?"
   const [chatContent, setChatContent] = useState(initialtext);
   // Update the ref whenever transcript1 changes
   useEffect(() => {
@@ -133,26 +134,10 @@ export default function Chatbot() {
     // };
   }, []);
 
-  async function add_to_cart(product_name) {
-    const last_index = product_name.indexOf(`\\`);
-    const new_product_name = String(product_name.slice(0, last_index).trim());
-    const { data } = await axios.post("http://localhost:3000/add_to_cart", {
-      product_name: new_product_name,
-    });
-    console.log(data);
-    speakText(data);
-    setChatContent(data);
-  }
-
-  async function add_to_wishlist(product_name) {
-    const last_index = product_name.indexOf(`\\`);
-    const new_product_name = String(product_name.slice(0, last_index).trim());
-    const { data } = await axios.post("http://localhost:3000/add_to_wishlist", {
-      product_name: new_product_name,
-    });
-    console.log(data);
-    speakText(data);
-    setChatContent(data);
+  async function createSOS(){
+    const locationName = await fetchLocationName(location.current.latitude, location.current.longitude)
+    await axios.post('http://localhost:3000/create-sos', { userId: 'user_2uVbYz9XrjAcTXemheEckOgckTo', lat : location.current.latitude, long : location.current.longitude, location : locationName})
+    speakText('Your emergency contacts have been alerted. Stay safe, and help is on the way.');
   }
 
   useEffect(() => {
@@ -169,25 +154,20 @@ export default function Chatbot() {
         console.log(response_json);
         localStorage.setItem("search_result", JSON.stringify(response_json));
         storeSearchResult(response_json);
-        navigate("/searchresult");
+        if(response_json.type == 'hospital'){
+          navigate("/hospital-locator");
+        }
         speakText(response_json.summary);
         setChatContent(response_json.summary);
         return;
       }
 
+      if(response.indexOf('HELP') > -1){
+        createSOS()
+        return
+      }
 
       const parts = response.split(" ");
-      if (parts[0].toLowerCase() === "cart") {
-        console.log(response.slice(5));
-        add_to_cart(response.slice(5));
-        return;
-      }
-
-      if (parts[0].toLowerCase() === "wishlist") {
-        console.log(response.slice(9));
-        add_to_wishlist(response.slice(9));
-        return;
-      }
       let pagename;
 
       // If the command starts with "open", process it
@@ -200,19 +180,14 @@ export default function Chatbot() {
         // Define a mapping of possible variations to correct routes
         const pageRoutes = {
           home: "/",
-          homepage: "/",
-          cart: "/cart",
-          wishlist : '/wishlist',
-          wishlistpage : '/wishlist',
-          profile : '/wishlist',
-          profilepage : '/profile',
-          cartpage: "/cart",
-          vegetable: "/vegetables",
-          vegetablepage: "/vegetables/",  // Assuming a dynamic route for vegetable details
-          vendor: "/vendors",
-          vendorpage: "/vendors",
-          order: "/orders",
-          orderpage: "/orders",
+          emergencysos: "/emergency-sos",
+          emergency_sos: "/emergency-sos",
+          hospitallocator: "/hospital-locator",
+          hospital_locator: "/hospital-locator",
+          symptomchecker: "/symptom-checker",
+          symptom_checker: "/symptom-checker",
+          firstaidguide: "/first-aid-guide",
+          first_aid_guide: "/first-aid-guide"
         };
         
 
