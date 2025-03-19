@@ -186,7 +186,7 @@ const HomePage = () => {
             <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-red-50 opacity-70"></div>
           </div>
           
-          <div className="relative z-10">
+          <div className="relative z-10 mb-16">
             <motion.h2 
               variants={item}
               className="text-2xl font-bold text-center mb-2 text-gray-800"

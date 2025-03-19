@@ -13,6 +13,7 @@ import Navbar from '@/components/Navbar';
 import { geminiModel } from '../utils/geminiClient';
 import Chatbot from '@/components/Chatbot';
 import { useUser } from '@clerk/clerk-react';
+import Footer from '@/components/Footer';
 
 const SymptomChecker = () => {
 
@@ -523,10 +524,10 @@ const SymptomChecker = () => {
                         <Button variant="outline" onClick={resetChecker}>
                           Start Over
                         </Button>
-                        <Button className="bg-blue-600 hover:bg-blue-700">
+                        {/* <Button className="bg-blue-600 hover:bg-blue-700">
                           <Phone className="h-4 w-4 mr-2" />
                           Find Healthcare
-                        </Button>
+                        </Button> */}
                       </div>
                     </div>
                   </motion.div>
@@ -561,6 +562,7 @@ const SymptomChecker = () => {
         </div>
       </div>
     </div>
+    <Footer />
     </div>
   );
 };

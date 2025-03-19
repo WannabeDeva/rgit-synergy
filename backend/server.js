@@ -32,7 +32,7 @@ const upload = multer({ storage: multer.memoryStorage() })
 let profile = {}
 
 async function getUserProfile() {
-    profile = await readDocument('users', 'user_2uVOAnN74OXrAmkb6BvcNERddW1')
+    profile = await readDocument('users', 'user_2uVbYz9XrjAcTXemheEckOgckTo')
 }
 
 

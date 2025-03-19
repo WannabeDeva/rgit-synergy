@@ -104,14 +104,14 @@ const Navbar = () => {
             </>
           ) : (
             <div className="flex items-center space-x-4">
-              <Link 
-                to="/profile" 
-                className={`nav-item px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location.pathname === "/profile" ? "bg-primary/10 text-primary" : "hover:bg-muted"
-                }`}
-              >
-                Profile
-              </Link>
+                {/* <Link 
+                  to="/profile" 
+                  className={`nav-item px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    location.pathname === "/profile" ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                  }`}
+                >
+                  Profile
+                </Link> */}
               <UserButton afterSignOutUrl="/" />
             </div>
           )}

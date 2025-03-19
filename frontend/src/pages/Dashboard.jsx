@@ -8,9 +8,34 @@ import { Badge } from '@/components/ui/badge';
 import Navbar from '@/components/Navbar';
 import Chatbot from '@/components/Chatbot';
 import { useUser } from '@clerk/clerk-react';
+import { useState, useEffect } from 'react';
 
 const Dashboard = () => {
-  const {user} = useUser()
+  const { user } = useUser();
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/profile');
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile data');
+        }
+        const data = await response.json();
+        setProfile(data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching profile:', err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
   const quickActions = [
     {
       title: "Emergency SOS",
@@ -71,6 +96,31 @@ const Dashboard = () => {
     }
   ];
 
+  if (loading) {
+    return (
+      <div>
+        <Navbar />
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <p className="text-lg">Loading profile data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <Navbar />
+        <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
+          <p className="text-lg text-red-500">Error: {error}</p>
+          <Button onClick={() => window.location.reload()} className="mt-4">
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Navbar />
@@ -83,7 +133,7 @@ const Dashboard = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-3xl font-bold text-gray-800">Welcome Back, Alex!</h1>
+              <h1 className="text-3xl font-bold text-gray-800">Welcome Back, {profile?.username || 'User'}!</h1>
               <p className="text-gray-600">Here's an overview of your recent activity.</p>
             </motion.div>
 
@@ -102,10 +152,68 @@ const Dashboard = () => {
               </Button>
               <Avatar>
                 <AvatarImage src="/api/placeholder/32/32" alt="User" />
-                <AvatarFallback>A</AvatarFallback>
+                <AvatarFallback>{profile?.username ? profile.username[0] : 'U'}</AvatarFallback>
               </Avatar>
             </motion.div>
           </div>
+
+          {/* User Profile Card */}
+          <motion.div
+            className="mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Card className="shadow border-none">
+              <CardHeader>
+                <CardTitle>Personal Information</CardTitle>
+                <CardDescription>Your health profile and emergency contacts</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="font-medium mb-2">Profile Details</h3>
+                    <div className="space-y-2">
+                      <p><span className="font-medium">Name:</span> {profile?.username}</p>
+                      <p><span className="font-medium">Age:</span> {profile?.age}</p>
+                      <p><span className="font-medium">Email:</span> {profile?.email}</p>
+                      <p><span className="font-medium">Phone:</span> {profile?.phone}</p>
+                      <p><span className="font-medium">Blood Group:</span> <Badge variant="outline" className="bg-red-50 text-red-800 border-red-200">{profile?.bloodGroup}</Badge></p>
+                      <p><span className="font-medium">Aadhar:</span> {profile?.aadharDetails}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-2">Medical Information</h3>
+                    <div className="space-y-2">
+                      <div>
+                        <span className="font-medium">Conditions:</span>
+                        <div className="flex flex-wrap gap-2 mt-1">
+                          {profile?.diseases?.map((disease, index) => (
+                            <Badge key={index} variant="outline" className="bg-purple-50 text-purple-800 border-purple-200">{disease}</Badge>
+                          ))}
+                          {profile?.diseases?.length === 0 && <span className="text-gray-500">None reported</span>}
+                        </div>
+                      </div>
+                      <div>
+                        <span className="font-medium">Emergency Contacts:</span>
+                        <div className="mt-1 space-y-2">
+                          {profile?.emergencyContacts?.map((contact, index) => (
+                            <div key={index} className="flex items-center gap-2">
+                              <Avatar className="h-6 w-6">
+                                <AvatarFallback className="text-xs">{contact.name[0]}</AvatarFallback>
+                              </Avatar>
+                              <span>{contact.name}: {contact.number}</span>
+                            </div>
+                          ))}
+                          {profile?.emergencyContacts?.length === 0 && <span className="text-gray-500">No emergency contacts added</span>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
 
           {/* Stats Overview */}
           <motion.div 

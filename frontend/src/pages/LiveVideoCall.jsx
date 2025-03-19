@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Navbar from '@/components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Footer from '@/components/Footer';
 
 const LiveVideoCall = () => {
   const [doctors, setDoctors] = useState([]);
@@ -359,6 +360,7 @@ const LiveVideoCall = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <Footer />
     </div>
   );
 };
