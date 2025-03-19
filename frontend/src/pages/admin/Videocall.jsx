@@ -22,7 +22,7 @@ const VideoCallDoctor = () => {
         const response = await fetch('http://localhost:3000/all-calls'); // Adjust the URL based on your backend setup
         const data = await response.json();
         console.log(data);
-        
+
         // Transform data to match existing structure
         const formattedRequests = data.map(call => ({
           id: call.doctor.id || `${Date.now()}`,  // Ensure ID exists
@@ -114,7 +114,7 @@ const VideoCallDoctor = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredRequests.map((request,index) => (
+                    {filteredRequests.map((request, index) => (
                       <motion.tr key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="border-b hover:bg-gray-50 transition-colors">
                         <td className="p-3 text-sm text-gray-800">{request.id}</td>
                         <td className="p-3 text-sm text-gray-800">
@@ -127,8 +127,8 @@ const VideoCallDoctor = () => {
                         <td className="p-3 text-sm text-gray-800">
                           <Badge variant={
                             request.status === 'Pending' ? 'warning' :
-                            request.status === 'Assigned' ? 'success' :
-                            request.status === 'Resolved' ? 'outline' : 'destructive'
+                              request.status === 'Assigned' ? 'success' :
+                                request.status === 'Resolved' ? 'outline' : 'destructive'
                           }>
                             {request.status}
                           </Badge>
@@ -137,11 +137,14 @@ const VideoCallDoctor = () => {
                           {new Date(request.requestedAt).toLocaleString()}
                         </td>
                         <td className="p-3 text-sm text-gray-800">
-                          <Button variant="outline" size="sm" onClick = {() => {
-                              navigate('/admin/video-calling')
-                          }}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => window.open("https://console-api-sig.zegocloud.com/s/uikit/QnqQrm", "_blank")}
+                          >
                             <Phone className="h-4 w-4 mr-1" /> Contact
                           </Button>
+
                         </td>
                       </motion.tr>
                     ))}

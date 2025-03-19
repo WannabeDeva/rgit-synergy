@@ -23,7 +23,7 @@ const Navbar = () => {
 
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "Hospitals-Nearby", path: "/hospital-locator" },
+    { name: "Services-Nearby", path: "/hospital-locator" },
     { name: "Symtom-Checker", path: "/symptom-checker" },
     { name: "First-Aid Guide", path: "/first-aid-guide" },
     { name: "Live-Assistance", path: "/videocall" },

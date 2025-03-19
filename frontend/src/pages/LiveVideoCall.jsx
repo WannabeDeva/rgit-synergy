@@ -90,7 +90,7 @@ const LiveVideoCall = () => {
         patientCount: 789
       }
     ];
-    
+
     setDoctors(mockDoctors);
     setFilteredDoctors(mockDoctors);
   }, []);
@@ -98,26 +98,26 @@ const LiveVideoCall = () => {
   // Filter doctors based on specialty and availability
   useEffect(() => {
     let filtered = [...doctors];
-    
+
     // Apply specialty filter
     if (specialtyFilter !== 'all') {
       filtered = filtered.filter(doctor => doctor.specialty === specialtyFilter);
     }
-    
+
     // Apply availability filter
     if (availabilityFilter === 'online') {
       filtered = filtered.filter(doctor => doctor.status === 'online');
     }
-    
+
     // Apply search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(doctor => 
-        doctor.name.toLowerCase().includes(query) || 
+      filtered = filtered.filter(doctor =>
+        doctor.name.toLowerCase().includes(query) ||
         doctor.specialty.toLowerCase().includes(query)
       );
     }
-    
+
     setFilteredDoctors(filtered);
   }, [doctors, specialtyFilter, availabilityFilter, searchQuery]);
 
@@ -126,9 +126,9 @@ const LiveVideoCall = () => {
     setShowRequestDialog(true);
   };
 
-  const handleCall = async (doctor,symptoms) => {
+  const handleCall = async (doctor, symptoms) => {
     try {
-      const response = await axios.post('http://localhost:3000/create-call',{doctor,symptoms});   
+      const response = await axios.post('http://localhost:3000/create-call', { doctor, symptoms });
     } catch (error) {
       console.log(error);
     }
@@ -150,36 +150,36 @@ const LiveVideoCall = () => {
     <div>
       <Navbar />
       <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-blue-100 p-4">
-  <div className="max-w-6xl mx-auto pt-6 pb-16">
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="mb-8"
-    >
-      <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-indigo-600 text-transparent bg-clip-text">Live Medical Assistance</h1>
-      <p className="text-gray-600 mt-2">
-        Connect with healthcare professionals for immediate medical advice
-      </p>
-    </motion.div>
+        <div className="max-w-6xl mx-auto pt-6 pb-16">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
+          >
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-indigo-600 text-transparent bg-clip-text">Live Medical Assistance</h1>
+            <p className="text-gray-600 mt-2">
+              Connect with healthcare professionals for immediate medical advice
+            </p>
+          </motion.div>
 
-    {/* Success notification */}
-    {showSuccess && (
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-6 p-4 bg-green-100 border border-green-200 rounded-lg text-green-800"
-      >
-        Your assistance request has been sent successfully! A doctor will connect with you shortly.
-      </motion.div>
+          {/* Success notification */}
+          {showSuccess && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-4 bg-green-100 border border-green-200 rounded-lg text-green-800"
+            >
+              Your assistance request has been sent successfully! A doctor will connect with you shortly.
+            </motion.div>
           )}
 
           {/* Filters section */}
           <div className="mb-8 bg-white rounded-lg shadow-md p-4">
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="w-full sm:w-1/3">
-                <Input 
-                  placeholder="Search doctors by name or specialty..." 
+                <Input
+                  placeholder="Search doctors by name or specialty..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full"
@@ -238,7 +238,7 @@ const LiveVideoCall = () => {
                             {doctor.status === 'online' ? 'Online' : 'Offline'}
                           </Badge>
                         </div>
-                        
+
                         <div className="flex items-center gap-3 mt-3">
                           <div className="flex items-center text-amber-500">
                             {'★'.repeat(Math.floor(doctor.rating))}
@@ -251,21 +251,23 @@ const LiveVideoCall = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="mt-4 pt-4 border-t border-gray-100">
                       <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                         <Clock className="h-4 w-4 text-blue-500" />
                         <span>Typical response time: {doctor.responseTime}</span>
                       </div>
-                      
+
                       <div className="flex flex-wrap gap-2 mt-4">
                         <Button variant="outline" size="sm" className="flex-1" disabled={doctor.status !== 'online'}>
                           <MessageSquare className="h-4 w-4 mr-1" /> Message
                         </Button>
-                        <Button variant="outline" size="sm" className="flex-1" onClick = {() => {
-                          navigate('/video')
-                        }} >
-                          <Video className="h-4 w-4 mr-1" /> Video
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => window.open("https://console-api-sig.zegocloud.com/s/uikit/QnqQrm", "_blank")}
+                        >
+                          <Video className="h-4 w-4 mr-1" /> Contact
                         </Button>
                         <Button variant="outline" size="sm" className="flex-1" disabled={doctor.status !== 'online'}>
                           <Phone className="h-4 w-4 mr-1" /> Call
@@ -274,8 +276,8 @@ const LiveVideoCall = () => {
                     </div>
                   </CardContent>
                   <CardFooter className="px-6 pb-6 pt-0">
-                    <Button 
-                      className="w-full bg-blue-600 hover:bg-blue-700" 
+                    <Button
+                      className="w-full bg-blue-600 hover:bg-blue-700"
                       disabled={doctor.status !== 'online'}
                       onClick={() => handleRequestAssistance(doctor)}
                     >
@@ -318,7 +320,7 @@ const LiveVideoCall = () => {
                 <p className="text-sm text-gray-600 mb-3">
                   Please describe your symptoms or medical concern:
                 </p>
-                <Textarea 
+                <Textarea
                   value={symptoms}
                   onChange={(e) => setSymptoms(e.target.value)}
                   placeholder="Describe what you're experiencing..."
@@ -348,10 +350,10 @@ const LiveVideoCall = () => {
             <Button variant="outline" onClick={() => setShowRequestDialog(false)} className="sm:flex-1">
               Cancel
             </Button>
-            <Button 
+            <Button
               onClick={() => {
-                handleCall(selectedDoctor,symptoms)
-              }} 
+                handleCall(selectedDoctor, symptoms)
+              }}
               className="bg-blue-600 hover:bg-blue-700 sm:flex-1"
               disabled={!symptoms.trim() && true}
             >
