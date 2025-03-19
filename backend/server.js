@@ -291,7 +291,6 @@ app.get("/all-emergency", async (req, res) => {
 
 app.post("/create-call", async(req, res) => {
     const {doctor, symptoms} = req.body;
-
     const videoCallId = String(Date.now());
     const videoCallData = { doctor, symptoms, date : Date.now(), meetLink : 'https://console-api-sig.zegocloud.com/s/uikit/QnqQrm'}
     await createOrUpdateDocument('videoCall', videoCallId, videoCallData)
@@ -301,7 +300,6 @@ app.post("/create-call", async(req, res) => {
 
 app.get("/all-calls", async(req, res) => {
     const videoCallData = await fetchAllDocuments('videoCall')
-
     res.status(200).send(videoCallData)
 })
 

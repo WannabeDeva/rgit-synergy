@@ -1,11 +1,11 @@
+import AdminNavbar from "@/components/AdminNavbar";
 import Navbar from "@/components/Navbar";
 import React from "react";
 
-const VideoCall = () => {
+const VideoCalling = () => {
   return (
     <>
-    <Navbar />
-    
+    <AdminNavbar />
     <div style={{ width: "100%", height: "100vh" }}>
       <iframe
         src="https://console-api-sig.zegocloud.com/s/uikit/QnqQrm"
@@ -18,4 +18,4 @@ const VideoCall = () => {
   );
 };
 
-export default VideoCall;
+export default VideoCalling;
