@@ -14,6 +14,7 @@ import Navbar from '@/components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '@/components/Footer';
+import Chatbot from '@/components/Chatbot';
 
 const LiveVideoCall = () => {
   const [doctors, setDoctors] = useState([]);
@@ -128,6 +129,7 @@ const LiveVideoCall = () => {
 
   const handleCall = async (doctor, symptoms) => {
     try {
+      setShowRequestDialog(false)
       const response = await axios.post('http://localhost:3000/create-call', { doctor, symptoms });
     } catch (error) {
       console.log(error);
@@ -362,6 +364,7 @@ const LiveVideoCall = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <Chatbot />
       <Footer />
     </div>
   );

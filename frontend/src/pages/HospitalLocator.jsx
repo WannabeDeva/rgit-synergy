@@ -709,8 +709,8 @@ const HospitalLocator = () => {
               </Card>
             </TabsContent>
           </Tabs>
-
-      
+              
+        <Chatbot />
         </div>
       </div>
       <Footer />

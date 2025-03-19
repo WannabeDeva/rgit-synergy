@@ -187,7 +187,10 @@ export default function Chatbot() {
           symptomchecker: "/symptom-checker",
           symptom_checker: "/symptom-checker",
           firstaidguide: "/first-aid-guide",
-          first_aid_guide: "/first-aid-guide"
+          first_aid_guide: "/first-aid-guide",
+          live_assistance : "/videocall",
+          liveassistance : "/videocall",
+          dashboard : "/dashboard"
         };
         
 

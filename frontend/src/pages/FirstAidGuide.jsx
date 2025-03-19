@@ -44,6 +44,7 @@ import {
 import Navbar from "@/components/Navbar";
 import YouTube from "react-youtube"; // Import YouTube component
 import Footer from "@/components/Footer";
+import Chatbot from "@/components/Chatbot";
 
 const FirstAidGuide = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -608,6 +609,7 @@ const FirstAidGuide = () => {
             </div>
           </div>
         </div>
+        <Chatbot />
       </div>
       <Footer />
     </div>
