@@ -79,6 +79,7 @@ export async function speakText(text) {
       ? await translateText(text, language)
       : text;
     
+    console.log(translateText)
     const utterance = new SpeechSynthesisUtterance(translatedText);
     // console.log(voices)
     const selectedVoice = language == 'en' ? voices.find(voice =>

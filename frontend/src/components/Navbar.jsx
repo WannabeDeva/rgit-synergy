@@ -3,15 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import { gsap } from "gsap";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { 
-  SignUpButton, 
-  SignInButton, 
-  SignOutButton, 
-  UserButton, 
-  useUser 
+import {
+  SignUpButton,
+  SignInButton,
+  SignOutButton,
+  UserButton,
+  useUser,
 } from "@clerk/clerk-react";
-import path from "path";
-
+import LanguageSwitch from "./LanguageSwitch";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,12 +81,16 @@ const Navbar = () => {
 
         {/* Desktop navigation */}
         <nav className="hidden md:flex space-x-4">
+          <LanguageSwitch />
+
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
               className={`nav-item px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                location.pathname === item.path ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                location.pathname === item.path
+                  ? "bg-primary/10 text-primary"
+                  : "hover:bg-muted"
               }`}
             >
               {item.name}
@@ -98,15 +101,19 @@ const Navbar = () => {
           {!isSignedIn ? (
             <>
               <SignUpButton forceRedirectUrl="/profile">
-                <Button size="sm" className="nav-item ml-4">Get Started</Button>
+                <Button size="sm" className="nav-item ml-4">
+                  Get Started
+                </Button>
               </SignUpButton>
               <SignInButton afterSignInUrl="/">
-                <Button size="sm" variant="outline" className="nav-item">Log In</Button>
+                <Button size="sm" variant="outline" className="nav-item">
+                  Log In
+                </Button>
               </SignInButton>
             </>
           ) : (
             <div className="flex items-center space-x-4">
-                {/* <Link 
+              {/* <Link 
                   to="/profile" 
                   className={`nav-item px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     location.pathname === "/profile" ? "bg-primary/10 text-primary" : "hover:bg-muted"
@@ -136,7 +143,9 @@ const Navbar = () => {
                 key={item.path}
                 to={item.path}
                 className={`menu-item block px-3 py-2 rounded-md text-base font-medium ${
-                  location.pathname === item.path ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                  location.pathname === item.path
+                    ? "bg-primary/10 text-primary"
+                    : "hover:bg-muted"
                 }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -149,10 +158,14 @@ const Navbar = () => {
               {!isSignedIn ? (
                 <>
                   <SignUpButton forceRedirectUrl="/profile">
-                    <Button size="sm" className="w-full">Get Started</Button>
+                    <Button size="sm" className="w-full">
+                      Get Started
+                    </Button>
                   </SignUpButton>
                   <SignInButton afterSignInUrl="/">
-                    <Button size="sm" variant="outline" className="w-full mt-2">Log In</Button>
+                    <Button size="sm" variant="outline" className="w-full mt-2">
+                      Log In
+                    </Button>
                   </SignInButton>
                 </>
               ) : (
@@ -160,7 +173,9 @@ const Navbar = () => {
                   <Link
                     to="/medicines"
                     className={`block px-3 py-2 rounded-md text-base font-medium ${
-                      location.pathname === "/profile" ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                      location.pathname === "/profile"
+                        ? "bg-primary/10 text-primary"
+                        : "hover:bg-muted"
                     }`}
                     onClick={() => setIsOpen(false)}
                   >
@@ -169,7 +184,9 @@ const Navbar = () => {
                   <div className="flex items-center justify-between px-3 py-2">
                     <UserButton afterSignOutUrl="/" />
                     <SignOutButton>
-                      <Button size="sm" variant="outline">Log Out</Button>
+                      <Button size="sm" variant="outline">
+                        Log Out
+                      </Button>
                     </SignOutButton>
                   </div>
                 </div>

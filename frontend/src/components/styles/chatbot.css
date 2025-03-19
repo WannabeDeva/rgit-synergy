@@ -15,6 +15,7 @@
  transform: translateX(-50%);
  width: 50%;
  height: 100px;
+ z-index: 50;
  overflow-y: scroll;
  text-align: center;
  background-color: rgba(0, 0, 0, 0.198);
