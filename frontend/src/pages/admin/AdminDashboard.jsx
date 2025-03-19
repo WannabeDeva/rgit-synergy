@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Bell, 
@@ -15,9 +15,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AdminNavbar from '@/components/AdminNavbar';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addDefaultLocale(en)
 
 const AdminDashboard = () => {
   const [view, setView] = useState('list');
+  const [emergencies, setEmergencies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const timeAgo = new TimeAgo('en-US')
   
   // Animation variants
   const container = {
@@ -36,15 +44,25 @@ const AdminDashboard = () => {
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
-  // Mock data
-  const activeEmergencies = [
-    { id: 'E-2503', name: 'John Doe', location: '123 Main St, New York', type: 'Cardiac', time: '5 min ago', severity: 'Critical' },
-    { id: 'E-2502', name: 'Jane Smith', location: '456 Park Ave, Boston', type: 'Trauma', time: '12 min ago', severity: 'High' },
-    { id: 'E-2501', name: 'Robert Johnson', location: '789 Oak Dr, Chicago', type: 'Allergic', time: '18 min ago', severity: 'Medium' },
-  ];
+  useEffect(() => {
+    const fetchEmergencies = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/all-emergency');
+        if (!response.ok) throw new Error('Failed to fetch emergencies');
+        const data = await response.json();
+        setEmergencies(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEmergencies();
+  }, []);
 
   const metrics = [
-    { title: 'Active Emergencies', value: '12', icon: <AlertTriangle className="h-8 w-8 text-red-500" /> },
+    { title: 'Active Emergencies', value: emergencies.length, icon: <AlertTriangle className="h-8 w-8 text-red-500" /> },
     { title: 'Avg Response Time', value: '4.2 min', icon: <Clock className="h-8 w-8 text-amber-500" /> },
     { title: 'Pending Dispatches', value: '3', icon: <Ambulance className="h-8 w-8 text-blue-500" /> },
     { title: 'Critical Alerts', value: '5', icon: <Bell className="h-8 w-8 text-purple-500" /> },
@@ -134,20 +152,20 @@ const AdminDashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {activeEmergencies.map((emergency, index) => (
+                    {emergencies?.map((emergency, index) => (
                       <tr key={index} className="border-b hover:bg-gray-50">
-                        <td className="px-4 py-3">{emergency.id}</td>
+                        <td className="px-4 py-3">{emergency.emergencyId}</td>
                         <td className="px-4 py-3 font-medium">{emergency.name}</td>
                         <td className="px-4 py-3">{emergency.location}</td>
-                        <td className="px-4 py-3">{emergency.type}</td>
-                        <td className="px-4 py-3">{emergency.time}</td>
+                        <td className="px-4 py-3">{emergency.cause}</td>
+                        <td className="px-4 py-3">{emergency.date ? timeAgo.format(emergency.date) : ''}</td>
                         <td className="px-4 py-3">
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            emergency.severity === 'Critical' ? 'bg-red-100 text-red-800' :
-                            emergency.severity === 'High' ? 'bg-orange-100 text-orange-800' :
+                            emergency.priority === 'Critical' ? 'bg-red-100 text-red-800' :
+                            emergency.priority === 'High' ? 'bg-orange-100 text-orange-800' :
                             'bg-yellow-100 text-yellow-800'
                           }`}>
-                            {emergency.severity}
+                            {emergency.priority}
                           </span>
                         </td>
                         <td className="px-4 py-3">
