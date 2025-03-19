@@ -47,7 +47,8 @@ const HospitalLocator = () => {
   const [loading, setLoading] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [mapInstance, setMapInstance] = useState(null);
-
+  const [databaseHospitals, setDatabaseHospitals] = useState([]);
+  
   // Google Maps API loader
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -169,6 +170,22 @@ const HospitalLocator = () => {
     }
   };
 
+    // Fetch database hospitals on component mount
+    useEffect(() => {
+      const fetchDatabaseHospitals = async () => {
+        try {
+          const response = await fetch('http://localhost:3000/api/hospitals');
+          if (!response.ok) throw new Error('Failed to fetch hospitals');
+          const data = await response.json();
+          setDatabaseHospitals(data);
+        } catch (error) {
+          console.error('Error fetching database hospitals:', error);
+        }
+      };
+  
+      fetchDatabaseHospitals();
+    }, []);
+  
   // Format places data for list view
   const formatPlacesForList = () => {
     if (!places || places.length === 0) return [];
@@ -423,9 +440,9 @@ const HospitalLocator = () => {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="hospital">Hospitals</SelectItem>
-                          <SelectItem value="fire_station">
-                            Fire Brigades
-                          </SelectItem>
+                          <SelectItem value="fire_station">Fire Brigades</SelectItem>
+                          <SelectItem value="pharmacy">Pharmacy</SelectItem>
+                          
                         </SelectContent>
                       </Select>
                     </div>
@@ -482,11 +499,50 @@ const HospitalLocator = () => {
 
           {/* View Modes */}
           <Tabs defaultValue="list" className="mb-6">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="list">List View</TabsTrigger>
               <TabsTrigger value="map">Map View</TabsTrigger>
+              <TabsTrigger value="database">Database</TabsTrigger>
+              
             </TabsList>
-
+            <TabsContent value="database" className="mt-4">
+              <div className="space-y-4">
+                {databaseHospitals.length > 0 ? (
+                  databaseHospitals.map((hospital, index) => (
+                    <motion.div
+                      key={hospital._id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <Card className="overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <CardContent className="p-4">
+                          <h3 className="font-semibold text-lg">{hospital.name}</h3>
+                          <div className="mt-3">
+                            <p className="text-sm text-gray-600">
+                              <strong>Emergency Beds:</strong> {hospital.beds.emergency}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              <strong>ICU Beds:</strong> {hospital.beds.icu}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              <strong>General Ward:</strong> {hospital.beds.general}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              <strong>Active Services:</strong> {hospital.services.join(', ')}
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">No hospitals found in the database.</p>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
             <TabsContent value="list" className="mt-4">
               <div className="space-y-4">
                 {loading ? (
@@ -654,58 +710,7 @@ const HospitalLocator = () => {
             </TabsContent>
           </Tabs>
 
-          {/* Quick Filters */}
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
-            <Button
-              variant={selectedType === "hospital" ? "default" : "outline"}
-              size="sm"
-              className="flex items-center gap-1 text-xs"
-              onClick={() => setSelectedType("hospital")}
-            >
-              Hospitals
-            </Button>
-            {/* <Button 
-              variant={selectedType === 'ambulance' ? "default" : "outline"} 
-              size="sm" 
-              className="flex items-center gap-1 text-xs"
-              onClick={() => setSelectedType('ambulance')}
-            >
-             Ambulance 
-            </Button> */}
-            <Button
-              variant={selectedType === "pharmacy" ? "default" : "outline"}
-              size="sm"
-              className="flex items-center gap-1 text-xs"
-              onClick={() => setSelectedType("pharmacy")}
-            >
-              Pharmacy
-            </Button>
-            <Button
-              variant={selectedType === "fire_station" ? "default" : "outline"}
-              size="sm"
-              className="flex items-center gap-1 text-xs"
-              onClick={() => setSelectedType("fire_station")}
-            >
-              Fire Brigades
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1 text-xs"
-              onClick={() => setDistance([5000])}
-            >
-              5km Range
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1 text-xs"
-              onClick={() => setDistance([10000])}
-            >
-              10km Range
-            </Button>
-            <Chatbot />
-          </div>
+      
         </div>
       </div>
       <Footer />

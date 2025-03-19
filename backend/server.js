@@ -11,14 +11,21 @@ import twilio from 'twilio'
 import placesRoute from './routes/places.js'
 import { ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
 import axios from "axios"
+import hospitalRoute from "./routes/Hospital.js";
+import mongoose from "mongoose"
 
 
 const app = express()
 const httpserver = createServer(app)
+mongoose
+  .connect('mongodb+srv://atharvayadav11:ashokvaishali@cluster0.twnwnbu.mongodb.net/Database3?retryWrites=true&w=majority')
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors({ origin: true }));
-
+app.use("/api/hospitals", hospitalRoute);
 const upload = multer({ storage: multer.memoryStorage() })
 
 // const all_vegetable = {

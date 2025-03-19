@@ -57,7 +57,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/emergency" element={<EmergencyMgmt />} />
         <Route path="/admin/notifs" element={<Notifs />} />
-        <Route path="/nearmeds" element={<NearbyPharmaciesMap />} />
+        {/* <Route path="/nearmeds" element={<NearbyPharmaciesMap />} /> */}
         <Route path="/admin/videocall" element={<VideoCallDoctor />} />
         <Route path="/admin/video-calling" element={<VideoCalling />} />
 
