@@ -27,6 +27,8 @@ import ProfileForm from './pages/SignUp/ProfileForm';
 import MedicineOrderPage from './pages/Medicines';
 
 import VideoCallDoctor from './pages/admin/Videocall';
+import VideoCall from './pages/VideoCall';
+import VideoCalling from './pages/admin/VideoCalling';
 
 
 
@@ -35,8 +37,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-
-        {/* <Route path="/video" element={<VideoCall/>} /> */}
+        <Route path="/video" element={<VideoCall/>} />
         <Route path="/medicines" element={<MedicineOrderPage />} />
         {/* <Route path="/video/:roomID/:userID/:userName" element={<VideoCall/>} /> */}
         <Route path="/signup" element={<SignUpForm />} />
@@ -53,6 +54,7 @@ function App() {
         <Route path="/admin/emergency" element={<EmergencyMgmt />} />
         <Route path="/admin/notifs" element={<Notifs />} />
         <Route path="/admin/videocall" element={<VideoCallDoctor />} />
+        <Route path="/admin/video-calling" element={<VideoCalling />} />
 
       </Routes>
       <Footer />

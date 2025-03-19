@@ -11,6 +11,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Navbar from '@/components/Navbar';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LiveVideoCall = () => {
   const [doctors, setDoctors] = useState([]);
@@ -22,7 +24,7 @@ const LiveVideoCall = () => {
   const [symptoms, setSymptoms] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
+  const navigate = useNavigate();
   // Simulated data for available doctors
   useEffect(() => {
     const mockDoctors = [
@@ -123,6 +125,13 @@ const LiveVideoCall = () => {
     setShowRequestDialog(true);
   };
 
+  const handleCall = async (doctor,symptoms) => {
+    try {
+      const response = await axios.post('http://localhost:3000/create-call',{doctor,symptoms});   
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const submitRequest = () => {
     // In a real app, this would send the request to the backend
     setShowRequestDialog(false);
@@ -252,7 +261,9 @@ const LiveVideoCall = () => {
                         <Button variant="outline" size="sm" className="flex-1" disabled={doctor.status !== 'online'}>
                           <MessageSquare className="h-4 w-4 mr-1" /> Message
                         </Button>
-                        <Button variant="outline" size="sm" className="flex-1" disabled={doctor.status !== 'online'}>
+                        <Button variant="outline" size="sm" className="flex-1" onClick = {() => {
+                          navigate('/video')
+                        }} >
                           <Video className="h-4 w-4 mr-1" /> Video
                         </Button>
                         <Button variant="outline" size="sm" className="flex-1" disabled={doctor.status !== 'online'}>
@@ -337,7 +348,9 @@ const LiveVideoCall = () => {
               Cancel
             </Button>
             <Button 
-              onClick={submitRequest} 
+              onClick={() => {
+                handleCall(selectedDoctor,symptoms)
+              }} 
               className="bg-blue-600 hover:bg-blue-700 sm:flex-1"
               disabled={!symptoms.trim() && true}
             >
