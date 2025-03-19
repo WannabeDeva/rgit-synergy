@@ -22,9 +22,10 @@ const Navbar = () => {
 
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Features", path: "/features" },
-    { name: "Contact", path: "/contact" },
+    { name: "Hospitals-Nearby", path: "/hospital-locator" },
+    { name: "Symtom-Checker", path: "/symptom-checker" },
+    { name: "First-Aid Guide", path: "/first-aid-guide" },
+    { name: "Live-Assistance", path: "/videocall" },
   ];
 
   // Initial animation

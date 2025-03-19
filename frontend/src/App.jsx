@@ -49,7 +49,7 @@ function App() {
         <Route path="/admin/videocall" element={<VideoCallDoctor />} />
 
       </Routes>
-      <Footer />
+     
     </Router>
   );
 }
