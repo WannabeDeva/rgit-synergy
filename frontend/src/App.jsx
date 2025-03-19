@@ -57,7 +57,7 @@ function App() {
         <Route path="/admin/video-calling" element={<VideoCalling />} />
 
       </Routes>
-      <Footer />
+     
     </Router>
   );
 }
