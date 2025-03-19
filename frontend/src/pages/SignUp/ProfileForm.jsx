@@ -10,6 +10,7 @@ import { Phone, AlertCircle, Heart, User, IdCard, UserCheck, Plus, X } from 'luc
 import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
 import { useNavigate } from "react-router-dom";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const ProfileForm = () => {
   const { user } = useUser();
@@ -23,7 +24,8 @@ const ProfileForm = () => {
     diseases: [],
     emergencyContacts: [],
     aadharDetails: '',
-    age: ''
+    age: '',
+    isVolunteer: false
   });
 
   const [diseaseInput, setDiseaseInput] = useState('');
@@ -132,6 +134,13 @@ const ProfileForm = () => {
     const updatedContacts = [...formData.emergencyContacts];
     updatedContacts.splice(index, 1);
     setFormData({ ...formData, emergencyContacts: updatedContacts });
+  };
+
+  const handleVolunteerChange = (checked) => {
+    setFormData({
+      ...formData,
+      isVolunteer: checked
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -401,6 +410,28 @@ const ProfileForm = () => {
                 Your medical information is stored securely and will only be used in case of emergencies. You can update or delete this information anytime.
               </AlertDescription>
             </Alert>
+            
+            {/* Volunteer Checkbox */}
+            <div className="space-y-2 border-t pt-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="volunteer" 
+                  checked={formData.isVolunteer}
+                  onCheckedChange={handleVolunteerChange}
+                />
+                <Label htmlFor="volunteer" className="font-medium">
+                  I want to volunteer my medical information
+                </Label>
+              </div>
+              
+              {formData.isVolunteer && (
+                <div className="bg-blue-50 p-3 rounded-md mt-2">
+                  <p className="text-sm text-gray-700">
+                    By volunteering, you allow your medical details to be used in case of emergency situations to help others in need. This includes your blood group and medical information being shared with medical personnel for potential matching in critical situations. Your personal contact information will remain private.
+                  </p>
+                </div>
+              )}
+            </div>
           </CardContent>
           
           <CardFooter className="flex justify-end gap-3 border-t p-6 bg-slate-50">
@@ -413,6 +444,7 @@ const ProfileForm = () => {
                 diseases: [],
                 emergencyContacts: [],
                 aadharDetails: '',
+                isVolunteer: false
               })}
             >
               Clear

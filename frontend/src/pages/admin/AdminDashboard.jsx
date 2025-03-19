@@ -185,45 +185,7 @@ const AdminDashboard = () => {
         </Card>
       </motion.div>
 
-      {/* Charts and Insights */}
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="grid grid-cols-1 lg:grid-cols-2 gap-6"
-      >
-        <motion.div variants={item}>
-          <Card className="bg-white shadow-md">
-            <CardHeader>
-              <CardTitle className="text-lg font-bold text-gray-800">Emergency Trends</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 bg-gray-50 rounded-md flex items-center justify-center">
-                <div className="text-center">
-                  <TrendingUp className="h-12 w-12 text-blue-500 mx-auto mb-2" />
-                  <p className="text-gray-500">Emergency trend chart would appear here</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <motion.div variants={item}>
-          <Card className="bg-white shadow-md">
-            <CardHeader>
-              <CardTitle className="text-lg font-bold text-gray-800">Risk Assessment</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 bg-gray-50 rounded-md flex items-center justify-center">
-                <div className="text-center">
-                  <Map className="h-12 w-12 text-blue-500 mx-auto mb-2" />
-                  <p className="text-gray-500">Risk heatmap would appear here</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </motion.div>
+     
     </div>
     </div>
   );

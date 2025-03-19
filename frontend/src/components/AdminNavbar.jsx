@@ -14,7 +14,6 @@ const AdminNavbar = () => {
   const adminNavItems = [
     { name: 'Dashboard', path: '/admin' },
     { name: 'Emergency Cases', path: '/admin/emergency' },
-    { name: 'Notifications', path: '/admin/notifs' },
     { name: 'Video Calls', path: '/admin/videocall' },
   ];
 
