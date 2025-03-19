@@ -10,6 +10,7 @@ import {
   UserButton, 
   useUser 
 } from "@clerk/clerk-react";
+import path from "path";
 
 
 const Navbar = () => {
@@ -26,6 +27,7 @@ const Navbar = () => {
     { name: "Symtom-Checker", path: "/symptom-checker" },
     { name: "First-Aid Guide", path: "/first-aid-guide" },
     { name: "Live-Assistance", path: "/videocall" },
+    {name: "Medicines", path : '/medicines'}
   ];
 
   // Initial animation
