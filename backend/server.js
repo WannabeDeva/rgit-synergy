@@ -10,6 +10,7 @@ import { db } from "./controllers/firestore.js";
 import twilio from 'twilio'
 import placesRoute from './routes/places.js'
 import { ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
+import axios from "axios"
 
 
 const app = express()
@@ -473,6 +474,72 @@ app.use('/api/places', placesRoute);
 
 app.use(ClerkExpressWithAuth());
 
+//Scraping
+app.post('/api/search', async (req, res) => {
+    try {
+      const { query , page = 0, hitsPerPage = 12 } = req.body;
+  
+      if (!query) {
+        return res.status(400).json({ error: 'Query parameter is required' });
+      }
+  
+      // Netmeds Algolia search URL
+      const url = 'https://0z9q3se3dl-dsn.algolia.net/1/indexes/*/queries';
+  
+      // Headers
+      const headers = {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'x-algolia-api-key': 'daff858f97cc3361e1a3f722e3729753',
+        'x-algolia-application-id': '0Z9Q3SE3DL'
+      };
+  
+      // Payload
+      const payload = {
+        requests: [
+          {
+            indexName: 'prod_meds',
+            params: `clickAnalytics=true&facets=["in_stock","categories","brand","manufacturer_name","algolia_facet.Benefits","algolia_facet.Product Characteristic","algolia_facet.Skin Concern","algolia_facet.Skin Type","selling_price","discount_pct"]&highlightPostTag=/ais-highlight&highlightPreTag=ais-highlight&hitsPerPage=${hitsPerPage}&maxValuesPerFacet=50&page=${page}&query=${encodeURIComponent(query)}`
+          }
+        ]
+      };
+  
+      // Make the request to Algolia
+      const response = await axios.post(url, payload, { headers });
+  
+      // Extract product data from the response
+      const products = extractProductData(response.data);
+  
+      // Send the products array in the response
+      res.json(products);
+    } catch (error) {
+      console.error('Error:', error.message);
+      res.status(500).json({ error: 'An error occurred while processing your request' });
+    }
+  });
+  
+  const extractProductData = results => {
+    if (!results?.results?.[0]?.hits) {
+      return [];
+    }
+  
+    const { hits } = results.results[0];
+    
+    return hits.map(hit => ({
+      id: hit.product_code || '',
+      name: hit.display_name || '',
+      url: hit.url_path ? `https://www.netmeds.com/${hit.url_path}` : '',
+      price: hit.selling_price || 0,
+      mrp: hit.mrp || 0,
+      discount: hit.discount_pct || 0,
+      manufacturer: hit.manufacturer_name || '',
+      in_stock: hit.in_stock || false,
+      categories: hit.categories || [],
+      image_url: hit.image_url || ''
+    }));
+  };
+
+// User Profile
 app.post('/api/profile', async (req, res) => {
   try {
     // After Clerk middleware, req.auth contains the authenticated user info.

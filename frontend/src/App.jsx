@@ -23,6 +23,7 @@ import Notifs from './pages/admin/Notifs';
 import VideoCallPage from './pages/admin/Videocall';
 import VideoCall from './pages/VideoCall';
 import ProfileForm from './pages/SignUp/ProfileForm';
+import MedicineOrderPage from './pages/Medicines';
 
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/video/:roomID/:userID/:userName" element={<VideoCall/>} />
+        <Route path="/video" element={<VideoCall/>} />
+        <Route path="/medicines" element={<MedicineOrderPage />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/profile" element={<ProfileForm />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -41,7 +43,6 @@ function App() {
         <Route path="/medical-records" element={<MedicalRecords />} />
         {/* <Route path="/live-video-call" element={<LiveVideoCall />} /> */}
         <Route path="/community" element={<Community />} />
-
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/emergency" element={<EmergencyMgmt />} />
         <Route path="/admin/notifs" element={<Notifs />} />
