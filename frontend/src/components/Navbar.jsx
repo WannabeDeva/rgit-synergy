@@ -11,6 +11,7 @@ import {
   useUser,
 } from "@clerk/clerk-react";
 import LanguageSwitch from "./LanguageSwitch";
+import logo from "../assets/logo.png"
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,8 +76,9 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <div ref={logoRef} className="h-8 w-8 rounded-full bg-primary" />
-          <span className="text-xl font-bold">MediAid</span>
+          {/* <div ref={logoRef} className="h-8 w-8 rounded-full bg-primary" /> */}
+          {/* <span className="text-xl font-bold">MediAid</span> */}
+          <img src={logo} className="h-10" />
         </Link>
 
         {/* Desktop navigation */}
