@@ -317,7 +317,7 @@ const HomePage = () => {
                 variants={item}
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
               >
-                <Link to="/medical-records">
+                <Link to="/medicines">
                   <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border-none h-full">
                     <CardContent className="p-2">
                       <div className="flex items-start gap-3">
@@ -325,8 +325,8 @@ const HomePage = () => {
                           <FileText className="h-6 w-6 text-indigo-500" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-semibold mb-1 text-gray-800">Medical Records</h3>
-                          <p className="text-gray-700 text-sm">Quick access to your medical history in emergencies</p>
+                          <h3 className="text-lg font-semibold mb-1 text-gray-800">Medicines</h3>
+                          <p className="text-gray-700 text-sm">Order Emergency Medicines</p>
                         </div>
                       </div>
                     </CardContent>

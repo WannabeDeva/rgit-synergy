@@ -114,8 +114,8 @@ const VideoCallDoctor = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredRequests.map((request) => (
-                      <motion.tr key={request.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="border-b hover:bg-gray-50 transition-colors">
+                    {filteredRequests.map((request,index) => (
+                      <motion.tr key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="border-b hover:bg-gray-50 transition-colors">
                         <td className="p-3 text-sm text-gray-800">{request.id}</td>
                         <td className="p-3 text-sm text-gray-800">
                           <div className="flex items-center gap-2">

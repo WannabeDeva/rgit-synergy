@@ -156,13 +156,13 @@ const Navbar = () => {
               ) : (
                 <div className="space-y-2">
                   <Link
-                    to="/profile"
+                    to="/medicines"
                     className={`block px-3 py-2 rounded-md text-base font-medium ${
                       location.pathname === "/profile" ? "bg-primary/10 text-primary" : "hover:bg-muted"
                     }`}
                     onClick={() => setIsOpen(false)}
                   >
-                    Profile
+                    Medicines
                   </Link>
                   <div className="flex items-center justify-between px-3 py-2">
                     <UserButton afterSignOutUrl="/" />
