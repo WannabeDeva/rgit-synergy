@@ -92,15 +92,11 @@ const HospitalLocator = () => {
       setPlaces(data.results || []);
       console.log("Places set:", data.results);
       
-      // IMPORTANT: Do not use mockData here
-      // The following line should be removed or commented out
-      // setPlaces(mockData.results);
-      
     } catch (error) {
       console.error('Error fetching places:', error);
       alert('Failed to fetch nearby places.');
       
-      // If API fails, you might want to use mock data as a fallback for development
+      // If API fails, use mock data as a fallback for development
       console.log("Using mock data as fallback");
       const mockData = {
         results: [
@@ -159,7 +155,6 @@ const HospitalLocator = () => {
     if (!places || places.length === 0) return [];
     
     return places.map(place => {
-      // Ensure place has the required properties
       if (!place.geometry || !place.geometry.location) {
         console.warn("Place is missing geometry or location:", place);
         return null;
@@ -257,7 +252,6 @@ const HospitalLocator = () => {
         {places.map((place) => {
           console.log("Rendering marker for:", place.name, place.geometry?.location);
           
-          // Verify place has valid geometry
           if (place.geometry && place.geometry.location && 
               typeof place.geometry.location.lat === 'number' && 
               typeof place.geometry.location.lng === 'number') {
@@ -268,15 +262,6 @@ const HospitalLocator = () => {
                   lat: place.geometry.location.lat,
                   lng: place.geometry.location.lng
                 }}
-                // Using default marker temporarily to debug
-                // icon={{
-                //   path: window.google.maps.SymbolPath.CIRCLE,
-                //   scale: 8,
-                //   fillColor: '#0000FF',
-                //   fillOpacity: 1,
-                //   strokeWeight: 2,
-                //   strokeColor: '#FFFFFF'
-                // }}
                 onClick={() => setSelectedPlace(place)}
               />
             );
@@ -333,15 +318,18 @@ const HospitalLocator = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen bg-gray-50 p-4">
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-red-50 p-4">
         <div className="max-w-4xl mx-auto pt-6 pb-16">
+          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-center mb-8"
           >
-            <h1 className="text-3xl font-bold text-gray-800">Emergency Services Locator</h1>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">
+              Emergency Services Locator
+            </h1>
             <p className="text-gray-600 mt-2">
               Find the nearest hospitals and emergency services
             </p>
