@@ -148,29 +148,29 @@ const LiveVideoCall = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen bg-gray-50 p-4">
-        <div className="max-w-6xl mx-auto pt-6 pb-16">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-          >
-            <h1 className="text-3xl font-bold text-gray-800">Live Medical Assistance</h1>
-            <p className="text-gray-600 mt-2">
-              Connect with healthcare professionals for immediate medical advice
-            </p>
-          </motion.div>
+      <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-blue-100 p-4">
+  <div className="max-w-6xl mx-auto pt-6 pb-16">
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="mb-8"
+    >
+      <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-indigo-600 text-transparent bg-clip-text">Live Medical Assistance</h1>
+      <p className="text-gray-600 mt-2">
+        Connect with healthcare professionals for immediate medical advice
+      </p>
+    </motion.div>
 
-          {/* Success notification */}
-          {showSuccess && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-6 p-4 bg-green-100 border border-green-200 rounded-lg text-green-800"
-            >
-              Your assistance request has been sent successfully! A doctor will connect with you shortly.
-            </motion.div>
+    {/* Success notification */}
+    {showSuccess && (
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-6 p-4 bg-green-100 border border-green-200 rounded-lg text-green-800"
+      >
+        Your assistance request has been sent successfully! A doctor will connect with you shortly.
+      </motion.div>
           )}
 
           {/* Filters section */}
